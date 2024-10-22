@@ -1,29 +1,29 @@
-
-
+#include "header.h"
 
 int main() {
+    /*
+    Fonction: main
+    Auteur:
+    Paramètres: 
+    Traitement :
+    Retour: 
+    */
     // Initialize ncurses
     initscr();
     cbreak();
     noecho();
     keypad(stdscr, TRUE);
-
-    // Enable color support
     start_color();
     init_pair(1, COLOR_RED, COLOR_BLACK);
 
     // Draw the board
     draw_board();
 
-    // Draw a wall at row 2, column 4
     int x = 0;
     int y = 0;
     int axes = 1;
 
-    
-
-    // Wait for user input
-    getch();
+    select_wall();
 
     // Clean up ncurses
     endwin();
