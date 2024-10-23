@@ -19,10 +19,11 @@ int main() {
     // Draw the board
     draw_board();
 
-    int x = 0;
-    int y = 0;
-    int axes = 1;
+    draw_wall(Player1x, Player1y, 1, Player1axes);
+    refresh();
 
+    select_wall(1);
+    refresh();
     select_wall();
 
     // Clean up ncurses

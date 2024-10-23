@@ -41,7 +41,7 @@ void draw_board() {
     refresh();
 }
 
-void draw_wall(int grid_row, int grid_col, int color, int angle) {
+void draw_wall(int player, int color, int angle) {
     /*
     Fonction: draw_wall
     Auteur: Evan
@@ -49,6 +49,17 @@ void draw_wall(int grid_row, int grid_col, int color, int angle) {
     Traitement : Dessine les murs dans la Console
     Retour: void
     */
+
+   if (player==1)
+    {
+         int grid_row = Player1x;
+         int grid_col = Player1y;
+    }
+    else
+    {
+         int grid_row = Player2x;
+         int grid_col = Player2y;
+    }
 
     // Calculate the starting position to center the board
     int start_row = (LINES - (BOARD_SIZE * 2 + 1)) / 2;
@@ -61,23 +72,28 @@ void draw_wall(int grid_row, int grid_col, int color, int angle) {
     if (angle == 0) {
         attron(COLOR_PAIR(color));
 
-        // Draw the horizontal wall
-        mvprintw(row, col + 2, "####");
-        mvprintw(row, col - 2, "#####");
+        if (grid_col>0)
+            mvprintw(row, col - 4, "####");
+        if (grid_col<BOARD_SIZE)
+            mvprintw(row, col + 1, "####");
+        mvprintw(row, col, "#");
 
         attroff(COLOR_PAIR(color));
     } else {
-        // Set the color
         attron(COLOR_PAIR(color));
 
-        // Draw the vertical wall
-        mvprintw(row + 2, col, "#");
-        mvprintw(row + 1, col, "#");
+        if (grid_row>0)
+        {
+            mvprintw(row - 2, col, "#");
+            mvprintw(row - 1, col, "#");
+        }
+        if (grid_row<BOARD_SIZE)
+        {
+            mvprintw(row + 1, col, "#");
+            mvprintw(row + 2, col, "#");
+        }
         mvprintw(row, col, "#");
-        mvprintw(row - 1, col, "#");
-        mvprintw(row - 2, col, "#");
 
-        // Reset the color
         attroff(COLOR_PAIR(color));
     }
 
