@@ -2,7 +2,8 @@
     "editor.fontFamily": "Monocraft, Consolas, 'Courier New', monospace",
     "files.associations": {
         "ncurses.h": "c",
-        "header.h": "c"
+        "header.h": "c",
+        "curses.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

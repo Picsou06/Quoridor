@@ -15,16 +15,16 @@ int main() {
     keypad(stdscr, TRUE);
     start_color();
     init_pair(1, COLOR_RED, COLOR_BLACK);
+    Player Player1 = createPlayer('X', 1);
+    Player Player2 = createPlayer('O', 2);
 
     // Draw the board
     draw_board();
 
-    draw_wall(Player1x, Player1y, 1, Player1axes);
-    refresh();
-
-    select_wall(1);
-    refresh();
-    select_wall();
+    while (true)
+    {
+        select_wall(Player1);
+    }
 
     // Clean up ncurses
     endwin();

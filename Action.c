@@ -1,18 +1,15 @@
 #include "header.h"
-void select_wall(int player)
+void select_wall(Player player)
 {
     int ch = 0;
-    if (player==1)
-    {
-         int x = Player1x;
-         int y = Player1y;
+    
+    // Sauvegarder l'état actuel du tableau
+    char board_backup[LINES][COLS];
+    for (int i = 0; i < LINES; i++) {
+        for (int j = 0; j < COLS; j++) {
+            board_backup[i][j] = mvinch(i, j);
+        }
     }
-    else
-    {
-         int x = Player2x;
-         int y = Player2y;
-    }
-
 
     while (ch != '\n') {
         ch = getch(); // Lire l'entrée utilisateur
@@ -22,22 +19,41 @@ void select_wall(int player)
                 draw_board();
                 break;
             case KEY_UP:
-                if (x > 0) x -= 1;
+                if (player.x > 0 ) player.x -= 1;
                 break;
             case KEY_DOWN:
-                if (x < BOARD_SIZE * 2 + 1 - 2) x += 1;
+                if (player.x < BOARD_SIZE * 2 + 1 - 2 && player.y<9) player.x += 1;
                 break;
             case KEY_LEFT:
-                if (y > 0) y -= 1;
+                if (player.y > 0 && player.x>0) player.y -= 1;
                 break;
             case KEY_RIGHT:
-                if (y < BOARD_SIZE * 4 + 1 - 4) y += 1;
+                if (player.y < BOARD_SIZE * 4 + 1 - 4) player.y += 1;
                 break;
             case ' ':
-                axes = !axes;
+                player.axes = !player.axes;
                 break;
+            case '\n':
+                // Restaurer l'état du tableau sauvegardé
+                for (int i = 0; i < LINES; i++) {
+                    for (int j = 0; j < COLS; j++) {
+                        mvaddch(i, j, board_backup[i][j]);
+                    }
+                }
+
+                refresh();
+                draw_wall(player);
+                return;
         }
-        draw_wall(player, 1, axes);
-        printf("Wall created on: %d : %d\n", x, y);
+        // Restaurer l'état du tableau sauvegardé
+        for (int i = 0; i < LINES; i++) {
+            for (int j = 0; j < COLS; j++) {
+                mvaddch(i, j, board_backup[i][j]);
+            }
+        }
+
+        refresh();
+        timed_wall(player);
+        printf("Wall created on: %d : %d\n", player.x, player.y);
     }
 }
