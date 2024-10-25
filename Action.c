@@ -25,7 +25,7 @@ void select_wall(Player player)
                 if (player.x < BOARD_SIZE * 2 + 1 - 2 && player.y<9) player.x += 1;
                 break;
             case KEY_LEFT:
-                if (player.y > 0 && player.x>0) player.y -= 1;
+                if (player.y > 0) player.y -= 1;
                 break;
             case KEY_RIGHT:
                 if (player.y < BOARD_SIZE * 4 + 1 - 4) player.y += 1;
