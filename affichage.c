@@ -53,29 +53,28 @@ void draw_wall(Player player) {
     int start_row = (LINES - (BOARD_SIZE * 2 + 1)) / 2;
     int start_col = (COLS - (BOARD_SIZE * MY_CELL_WIDTH)) / 2;
 
-    int row = start_row + player.x * 2;
-    int col = start_col + player.y * MY_CELL_WIDTH;
+    int row = start_row + player.yWall * 2;
+    int col = start_col + player.xWall * MY_CELL_WIDTH;
 
     if (player.axes == 0) {
         attron(COLOR_PAIR(player.color));
 
-        
-        if (player.y>0)
+        if (player.xWall>0)
             mvprintw(row, col - 4, "####");
-        if (player.y<BOARD_SIZE)
+        if (player.xWall<BOARD_SIZE)
             mvprintw(row, col + 1, "####");
         mvprintw(row, col, "#");
 
         attroff(COLOR_PAIR(player.color));
     } else {
         attron(COLOR_PAIR(player.color));
-        if (player.x>0)
+        if (player.yWall>0)
         {
             {
                 mvprintw(row - 2, col, "#");
                 mvprintw(row - 1, col, "#");
             }
-            if (player.x<BOARD_SIZE)
+            if (player.yWall<BOARD_SIZE)
             {
                 mvprintw(row + 1, col, "#");
                 mvprintw(row + 2, col, "#");
@@ -89,46 +88,27 @@ void draw_wall(Player player) {
     refresh();
 }
 
-void timed_wall(Player player) {
-    /*
-    Fonction: timed_wall
-    Auteur: Evan
-    Paramètres: void
-    Traitement : affiche le mur pendant une secondes avant de re afficher le tableau
-    Retour: void
-    */
-
+void displayPlayer(Player player) {
     // Calculate the starting position to center the board
     int start_row = (LINES - (BOARD_SIZE * 2 + 1)) / 2;
     int start_col = (COLS - (BOARD_SIZE * MY_CELL_WIDTH)) / 2;
 
-    int row = start_row + player.x * 2;
-    int col = start_col + player.y * MY_CELL_WIDTH;
+    // Calculate the position to display the player
+    int row = start_row + player.y * 2 + player.team;
+    int col = start_col + player.x * MY_CELL_WIDTH + MY_CELL_WIDTH / 2;
 
-    if (player.axes == 0) {
-        attron(COLOR_PAIR(COLOR_YELLOW));
-
-        if (player.y > 0)
-            mvprintw(row, col - 4, "####");
-        if (player.y < BOARD_SIZE)
-            mvprintw(row, col + 1, "####");
-        mvprintw(row, col, "#");
-
-        attroff(COLOR_PAIR(COLOR_YELLOW));
-    } else {
-        attron(COLOR_PAIR(COLOR_YELLOW));
-
-        if (player.x > 0) {
-            mvprintw(row - 2, col, "#");
-            mvprintw(row - 1, col, "#");
-        }
-        if (player.x < BOARD_SIZE) {
-            mvprintw(row + 1, col, "#");
-            mvprintw(row + 2, col, "#");
-        }
-        mvprintw(row, col, "#");
-
-        attroff(COLOR_PAIR(COLOR_YELLOW));
-    }
+    // Apply the player's color
+    attron(COLOR_PAIR(player.color));
+    mvprintw(row, col, "%c", player.icon);
+    attroff(COLOR_PAIR(player.color));
     refresh();
+}
+
+
+
+void redraw(Player Player1, Player Player2)
+{
+    draw_board();
+    displayPlayer(Player1);
+    displayPlayer(Player2);
 }

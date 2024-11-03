@@ -1,6 +1,6 @@
 #include "header.h"
 
-Player createPlayer(char icon, int color) {
+Player createPlayer(char icon, int color, int x, int y, int team) {
     /*
     Fonction: createPlayer
     Auteur: Evan
@@ -11,8 +11,9 @@ Player createPlayer(char icon, int color) {
     Player player;
     player.icon = icon;
     player.color = color;
-    player.x = 0;
-    player.y = 0;
+    player.x = x;
+    player.y = y;
+    player.team = team;
     player.xWall = 5;
     player.yWall = 5;
     player.nbWall = MAXWALL;
