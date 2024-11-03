@@ -1,1 +1,2 @@
-gcc *.c -o bin\main.exe -Lmingw64\lib -lncursesw; .\bin\main.exe
+gcc *.c -o bin\main.exe -I mingw64\include -L mingw64\lib -lncursesw
+.\bin\main.exe
