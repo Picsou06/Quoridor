@@ -96,3 +96,26 @@ void displayPlayer(Game game) {
     attroff(COLOR_PAIR(game.listOfPlayers[1].color));
     refresh();
 }
+
+void displayTempPlayer(Game game) {
+    // Calculate the starting position to center the board
+    int start_row = (LINES - (BOARD_SIZE * 2 + 1)) / 2;
+    int start_col = (COLS - (BOARD_SIZE * MY_CELL_WIDTH)) / 2;
+
+    // Calculate the position to display the player
+    int row = start_row + game.listOfPlayers[game.playerPlaying].MovementY * 2 + game.listOfPlayers[0].team;
+    int col = start_col + game.listOfPlayers[game.playerPlaying].MovementX * MY_CELL_WIDTH + MY_CELL_WIDTH / 2;
+
+    // Apply the player's color
+    attron(COLOR_PAIR(game.listOfPlayers[game.playerPlaying].color));
+    mvprintw(row, col, "%c", game.listOfPlayers[game.playerPlaying].icon);
+    attroff(COLOR_PAIR(game.listOfPlayers[game.playerPlaying].color));
+    refresh();
+}
+
+void redraw(Game game) {
+    clear();
+    draw_board(game);
+    displayPlayer(game);
+    refresh();
+}

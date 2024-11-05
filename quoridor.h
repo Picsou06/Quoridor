@@ -12,8 +12,8 @@ typedef struct {
     int color;
     int x;
     int y;
-    int movementx;
-    int movementy;
+    int MovementX;
+    int MovementY;
     int team;
     int nbWall;
     int xWall;

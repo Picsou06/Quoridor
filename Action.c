@@ -1,5 +1,5 @@
 #include "quoridor.h"
-void select_wall(Player player, Player PlayerNotPlaying) {
+void select_wall(Game game) {
 /*
     Fonction: select_wall
     Auteur:Evan et Wylan
@@ -77,7 +77,7 @@ void select_wall(Player player, Player PlayerNotPlaying) {
     }
 }
 
-void select_player(Player player, Player PlayerNotPlaying)
+void select_player(Game game)
 /*
     Fonction: select_player
     Auteur:Evan 
@@ -87,15 +87,6 @@ void select_player(Player player, Player PlayerNotPlaying)
 */
 {
     int ch = 0;
-    
-    // Sauvegarder l'état actuel du tableau
-    char board_backup[LINES][COLS];
-    for (int i = 0; i < LINES; i++) {
-        for (int j = 0; j < COLS; j++) {
-            board_backup[i][j] = mvinch(i, j);
-        }
-    }
-
     while (ch != '\n') {
         ch = getch(); // Lire l'entrée utilisateur
         switch (ch) {
