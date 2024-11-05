@@ -141,7 +141,7 @@ void select_player(Player player, Player PlayerNotPlaying)
             }
         }
         
-        redraw(player, PlayerNotPlaying);
+        /* redraw(player, PlayerNotPlaying); */
         refresh();
     }
 }

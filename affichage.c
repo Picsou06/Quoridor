@@ -1,6 +1,6 @@
 #include "quoridor.h"
 
-void draw_board() {
+void draw_board(Game game) {
     /*
     Fonction: draw_board
     Auteur:Evan
@@ -8,40 +8,25 @@ void draw_board() {
     Traitement : Dessine le tableau de format 9*9 dans la Console
     Retour: void
     */
-    int i, j;
-
-    initscr();
-    cbreak();
-    noecho();
-    keypad(stdscr, TRUE);
-
-    // Calculer la position de départ pour centrer la grille
+   // Calculate the starting position to center the board
     int start_row = (LINES - (BOARD_SIZE * 2 + 1)) / 2;
     int start_col = (COLS - (BOARD_SIZE * MY_CELL_WIDTH)) / 2;
 
-    // dessin du tableau
-    for (i = 0; i < BOARD_SIZE; i++) {
-        for (j = 0; j < BOARD_SIZE; j++) {
-            // dessin des lignes horizontales
-            mvprintw(start_row + i * 2, start_col + j * MY_CELL_WIDTH, "+---");
-            // Draw vertical lines
-            mvprintw(start_row + i * 2 + 1, start_col + j * MY_CELL_WIDTH, "|   ");
+    // Draw the board
+    for (int i = 0; i < BOARD_SIZE * 3; i++) {
+        for (int j = 0; j < BOARD_SIZE * 5; j++) {
+            int row = start_row + i;
+            int col = start_col + j;
+            attron(COLOR_PAIR(game.board.color[i][j]));
+            mvprintw(row, col, "%c", game.board.board[i][j]);
+            attroff(COLOR_PAIR(game.board.color[i][j]));
         }
-        // Draw the rightmost vertical line
-        mvprintw(start_row + i * 2, start_col + BOARD_SIZE * MY_CELL_WIDTH, "+\n");
-        mvprintw(start_row + i * 2 + 1, start_col + BOARD_SIZE * MY_CELL_WIDTH, "|\n");
     }
-
-    // Draw the bottom horizontal line
-    for (j = 0; j < BOARD_SIZE; j++) {
-        mvprintw(start_row + BOARD_SIZE * 2, start_col + j * MY_CELL_WIDTH, "+---");
-    }
-    mvprintw(start_row + BOARD_SIZE * 2, start_col + BOARD_SIZE * MY_CELL_WIDTH, "+\n");
-
     refresh();
 }
 
-void draw_wall(Player player) {
+
+void draw_wall(Game game) {
     /*
     Fonction: draw_wall
     Auteur: Evan
@@ -49,66 +34,65 @@ void draw_wall(Player player) {
     Traitement : Dessine les murs dans la Console
     Retour: void
     */
-    // Calculate the starting position to center the board
-    int start_row = (LINES - (BOARD_SIZE * 2 + 1)) / 2;
-    int start_col = (COLS - (BOARD_SIZE * MY_CELL_WIDTH)) / 2;
+    int row = game.listOfPlayers[game.playerPlaying].yWall * 2;
+    int col = game.listOfPlayers[game.playerPlaying].xWall * 4;
 
-    int row = start_row + player.yWall * 2;
-    int col = start_col + player.xWall * MY_CELL_WIDTH;
-
-    if (player.axes == 0) {
-        attron(COLOR_PAIR(player.color));
-
-        if (player.xWall>0)
-            mvprintw(row, col - 4, "####");
-        if (player.xWall<BOARD_SIZE)
-            mvprintw(row, col + 1, "####");
-        mvprintw(row, col, "#");
-
-        attroff(COLOR_PAIR(player.color));
-    } else {
-        attron(COLOR_PAIR(player.color));
-        if (player.yWall>0)
-        {
-            {
-                mvprintw(row - 2, col, "#");
-                mvprintw(row - 1, col, "#");
-            }
-            if (player.yWall<BOARD_SIZE)
-            {
-                mvprintw(row + 1, col, "#");
-                mvprintw(row + 2, col, "#");
-            }
-            mvprintw(row, col, "#");
-
-            attroff(COLOR_PAIR(player.color));
+    if (game.listOfPlayers[game.playerPlaying].axes == 0) {
+        if (game.listOfPlayers[game.playerPlaying].xWall > 0) {
+            game.board.board[row][col - 4] = '#';
+            game.board.board[row][col - 3] = '#';
+            game.board.board[row][col - 2] = '#';
+            game.board.board[row][col - 1] = '#';
+            printf("WALL CREATION 1\n");
         }
+        if (game.listOfPlayers[game.playerPlaying].xWall < BOARD_SIZE) {
+            game.board.board[row][col + 1] = '#';
+            game.board.board[row][col + 2] = '#';
+            game.board.board[row][col + 3] = '#';
+            game.board.board[row][col + 4] = '#';
+            printf("WALL CREATION 2\n");
+        }
+        game.board.board[row][col] = '#';
+    } else {
+        if (game.listOfPlayers[game.playerPlaying].yWall > 0) {
+            game.board.board[row - 2][col] = '#';
+            game.board.board[row - 1][col] = '#';
+            printf("WALL CREATION 3\n");
+        }
+        if (game.listOfPlayers[game.playerPlaying].yWall < BOARD_SIZE) {
+            game.board.board[row + 1][col] = '#';
+            game.board.board[row + 2][col] = '#';
+            printf("WALL CREATION 4\n");
+        }
+        game.board.board[row][col] = '#';
     }
 
-    refresh();
+    // Call draw_board and displayPlayer
+    clear();
+    draw_board(game);
+    displayPlayer(game);
+    printf("WALL CREATION END");
 }
 
-void displayPlayer(Player player) {
+void displayPlayer(Game game) {
     // Calculate the starting position to center the board
     int start_row = (LINES - (BOARD_SIZE * 2 + 1)) / 2;
     int start_col = (COLS - (BOARD_SIZE * MY_CELL_WIDTH)) / 2;
 
     // Calculate the position to display the player
-    int row = start_row + player.y * 2 + player.team;
-    int col = start_col + player.x * MY_CELL_WIDTH + MY_CELL_WIDTH / 2;
+    int row = start_row + game.listOfPlayers[0].y * 2 + game.listOfPlayers[0].team;
+    int col = start_col + game.listOfPlayers[0].x * MY_CELL_WIDTH + MY_CELL_WIDTH / 2;
 
     // Apply the player's color
-    attron(COLOR_PAIR(player.color));
-    mvprintw(row, col, "%c", player.icon);
-    attroff(COLOR_PAIR(player.color));
+    attron(COLOR_PAIR(game.listOfPlayers[0].color));
+    mvprintw(row, col, "%c", game.listOfPlayers[game.playerPlaying].icon);
+    attroff(COLOR_PAIR(game.listOfPlayers[0].color));
+
+    row = start_row + game.listOfPlayers[1].y * 2 + game.listOfPlayers[1].team;
+    col = start_col + game.listOfPlayers[1].x * MY_CELL_WIDTH + MY_CELL_WIDTH / 2;
+
+    attron(COLOR_PAIR(game.listOfPlayers[1].color));
+    mvprintw(row, col, "%c", game.listOfPlayers[1].icon);
+    attroff(COLOR_PAIR(game.listOfPlayers[1].color));
     refresh();
-}
-
-
-
-void redraw(Player Player1, Player Player2)
-{
-    draw_board();
-    displayPlayer(Player1);
-    displayPlayer(Player2);
 }
