@@ -33,14 +33,15 @@ typedef struct {
 
   typedef struct {
       char board[BOARD_SIZE*5][BOARD_SIZE*3];
+      char color[BOARD_SIZE*5][BOARD_SIZE*3];
  } Board;
 
  typedef stuct {
-    *Player listOfPlayers;
-    int nbPlayers;
-    *Wall listOfWalls;
-    Board board;
-
+   *Player listOfPlayers;
+   int nbPlayers;
+   *Wall listOfWalls;
+   int nbWalls;
+   Board board;
  } Game;
 
 void draw_board();

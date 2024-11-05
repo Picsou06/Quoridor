@@ -1,6 +1,6 @@
 #include "quoridor.h"
 
-Player createPlayer(char icon, int color, int x, int y, int team) {
+Player createPlayer(char icon, int color, int x, int y, int team, limitRight, limitLeft, limitUp, limitDown) {
     /*
     Fonction: createPlayer
     Auteur: Evan
@@ -18,5 +18,9 @@ Player createPlayer(char icon, int color, int x, int y, int team) {
     player.yWall = 5;
     player.nbWall = MAXWALL;
     player.axes = 0;
+    player.limitRight = limitRight;
+    player.limitLeft = limitLeft;
+    player.limitUp = limitUp;
+    player.limitDown = limitDown;
     return player;
 }
