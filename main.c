@@ -1,9 +1,9 @@
-#include "header.h"
+#include "quoridor.h"
 
 int main() {
     /*
     Fonction: main
-    Auteur:
+    Auteur: Evan
     Paramètres: 
     Traitement :
     Retour: 

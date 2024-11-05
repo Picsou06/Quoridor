@@ -1,4 +1,4 @@
-#include "header.h"
+#include "quoridor.h"
 
 Player createPlayer(char icon, int color, int x, int y, int team) {
     /*

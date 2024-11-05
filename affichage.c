@@ -1,4 +1,4 @@
-#include "header.h"
+#include "quoridor.h"
 
 void draw_board() {
     /*
