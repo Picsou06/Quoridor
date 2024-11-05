@@ -105,11 +105,16 @@ void displayTempPlayer(Game game) {
     // Calculate the position to display the player
     int row = start_row + game.listOfPlayers[game.playerPlaying].MovementY * 2 + game.listOfPlayers[0].team;
     int col = start_col + game.listOfPlayers[game.playerPlaying].MovementX * MY_CELL_WIDTH + MY_CELL_WIDTH / 2;
+    int Initialrow = start_row + game.listOfPlayers[game.playerPlaying].y * 2 + game.listOfPlayers[0].team;
+    int Initialcol = start_col + game.listOfPlayers[game.playerPlaying].x * MY_CELL_WIDTH + MY_CELL_WIDTH / 2;
 
     // Apply the player's color
     attron(COLOR_PAIR(game.listOfPlayers[game.playerPlaying].color));
     mvprintw(row, col, "%c", game.listOfPlayers[game.playerPlaying].icon);
     attroff(COLOR_PAIR(game.listOfPlayers[game.playerPlaying].color));
+    attron(COLOR_PAIR(0));
+    mvprintw(row, col, "%c", game.listOfPlayers[game.playerPlaying].icon);
+    attroff(COLOR_PAIR(0));
     refresh();
 }
 
