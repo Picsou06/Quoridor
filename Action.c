@@ -1,4 +1,6 @@
+
 #include "quoridor.h"
+
 void select_wall(Game game) {
 /*
     Fonction: select_wall
@@ -8,79 +10,46 @@ void select_wall(Game game) {
     Retour: void
 */
     int ch = 0;
-    
-    // Sauvegarder l'état actuel du tableau
-    char board_backup[LINES][COLS];
-    int color_backup[LINES][COLS];
-    for (int i = 0; i < LINES; i++) {
-        for (int j = 0; j < COLS; j++) {
-            board_backup[i][j] = mvinch(i, j) & A_CHARTEXT;
-            color_backup[i][j] = mvinch(i, j) & A_COLOR;
-        }
-    }
+
+    save_board(game);
 
     while (ch != '\n') {
         ch = getch(); // Lire l'entrée utilisateur
-        draw_wall(player); // Afficher position mur
+        draw_wall(game); // Afficher position mur
         switch (ch) {
             case 's':
-                // Restaurer l'état du tableau sauvegardé
-                for (int i = 0; i < LINES; i++) {
-                    for (int j = 0; j < COLS; j++) {
-                        mvaddch(i, j, board_backup[i][j]);
-                    }
-                }
-                select_player(player, PlayerNotPlaying);
+                draw_board(game);
+                select_player(game);
                 printf("switch player\n");
                 return;
             case KEY_UP:
-                if (player.yWall > 0 ) player.yWall -= 1;
+                if (game.playerPlaying.yWall > 0 ) game.playerPlaying.yWall -= 1;
                 break;
             case KEY_DOWN:
-                if (player.yWall < 9) player.yWall += 1;
+                if (game.playerPlaying.yWall < 9) game.playerPlaying.yWall += 1;
                 break;
             case KEY_LEFT:
-                if (player.xWall > 0) player.xWall -= 1;
+                if (game.playerPlaying.xWall > 0) game.playerPlaying.xWall -= 1;
                 break;
             case KEY_RIGHT:
-                if (player.xWall < 9) player.xWall += 1;
+                if (game.playerPlaying.xWall < 9) game.playerPlaying.xWall += 1;
                 break;
             case ' ':
-                player.axes = !player.axes;
+                game.playerPlaying.axes = !game.playerPlaying.axes;
                 break;
             case '\n':
-                // Restaurer l'état du tableau sauvegardé
-                for (int i = 0; i < LINES; i++) {
-                    for (int j = 0; j < COLS; j++) {
-                        attron(COLOR_PAIR(color_backup[i][j]));
-                        mvaddch(i, j, board_backup[i][j]);
-                        attroff(COLOR_PAIR(color_backup[i][j]));
-                    }
-                }
-
-                refresh();
-                draw_wall(player);
-                return;
+                draw_wall(game);
+                draw_board(game);
+                switch_player(game);
+                select_player(game);
         }
-        // Restaurer l'état du tableau sauvegardé
-                for (int i = 0; i < LINES; i++) {
-                    for (int j = 0; j < COLS; j++) {
-                        attron(COLOR_PAIR(color_backup[i][j]));
-                        mvaddch(i, j, board_backup[i][j]);
-                        attroff(COLOR_PAIR(color_backup[i][j]));
-                    }
-                }
-
-        refresh();
-        draw_wall(player);
-        printf("Wall created on: %d : %d\n", player.x, player.y);
     }
 }
 
 void select_player(Game game)
 /*
     Fonction: select_player
-    Auteur:Evan 
+    Auteur:Evan et Wylan et thomas
     Paramètres: void
     Traitement : Permet de déplacer le joueur 
     Retour: void
@@ -91,48 +60,68 @@ void select_player(Game game)
         ch = getch(); // Lire l'entrée utilisateur
         switch (ch) {
             case 's':
-                // Restaurer l'état du tableau sauvegardé
-                for (int i = 0; i < LINES; i++) {
-                    for (int j = 0; j < COLS; j++) {
-                        mvaddch(i, j, board_backup[i][j]);
-                    }
-                }
-                select_wall(player, PlayerNotPlaying);
+                draw_board(game);
+                displayPlayer(game);
+                select_wall(game);
                 printf("switch wall\n");
-                return;
             case KEY_UP:
-                if (player.y > player.limitUp ) player.movementy -= 1;
+                if (game.playerPlaying.y > game.playerPlaying.limitUp )
+                {
+                    game.playerPlaying.MovementY -= 1;
+                    displayTempPlayer(game);
+                }
                 break;
             case KEY_DOWN:
-                if (player.y < player.limitDown ) player.movementy += 1;
+                if (game.playerPlaying.y < game.playerPlaying.limitDown )
+                {
+                    game.playerPlaying.MovementY += 1;
+                    displayTempPlayer(game);
+                }
                 break;
             case KEY_LEFT:
-                if (player.x > player.limitLeft) player.movementx -= 1;
+                if (game.playerPlaying.x > game.playerPlaying.limitLeft)
+                {
+                    game.playerPlaying.MovementX -= 1;
+                    displayTempPlayer(game);
+                }
                 break;
             case KEY_RIGHT:
-                if (player.x < player.limitRight ) player.movementx += 1;
+                if (game.playerPlaying.x < game.playerPlaying.limitRight ) 
+                {
+                    game.playerPlaying.MovementX += 1;
+                    displayTempPlayer(game);
+                }
                 break;
             case '\n':
-
-        
-                // Restaurer l'état du tableau sauvegardé
-                for (int i = 0; i < LINES; i++) {
-                    for (int j = 0; j < COLS; j++) {
-                        mvaddch(i, j, board_backup[i][j]);
-                    }
-                }
-                refresh();
-                select_player(PlayerNotPlaying, player);
-                return;
+                draw_board(game);
+                game.playerPlaying.x = game.playerPlaying.MovementX;
+                game.playerPlaying.y = game.playerPlaying.MovementY;
+                displayPlayer(game);
+                switch_player(game);
+                select_player(game);
         }
-        // Restaurer l'état du tableau sauvegardé
-        for (int i = 0; i < LINES; i++) {
-            for (int j = 0; j < COLS; j++) {
-                mvaddch(i, j, board_backup[i][j]);
-            }
-        }
-        
-        /* redraw(player, PlayerNotPlaying); */
-        refresh();
     }
+}
+
+void switch_player(Game game){
+/*
+    Fonction: switch_player
+    Auteur: Thomas et Evan 
+    Paramètres: void
+    Traitement : Permet de changer de joueur
+    Retour: void
+*/
+    Player player = game.playerPlaying;
+    int emplacement = 0;
+
+    while (game.listOfPlayers[emplacement].icon != game.playerPlaying.icon)
+        emplacement++;
+    emplacement++;
+    if(emplacement>game.nbPlayers)
+        emplacement=0;
+    game.playerPlaying=game.listOfPlayers[emplacement];
+    game.playerPlaying.MovementX=game.playerPlaying.x;
+    game.playerPlaying.MovementY=game.playerPlaying.y;
+
+    select_player(game);
 }

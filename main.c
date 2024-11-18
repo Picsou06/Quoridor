@@ -22,11 +22,7 @@ int main() {
     Game game = createGame(2);
     draw_board(game);
     displayPlayer(game);
-    draw_wall(game);
-    int ch;
-    ch = getch(); // Lire l'entrée utilisateur
-    switch (ch) {
-    }
+    select_player(game);
 
     // Clean up ncurses
     endwin();

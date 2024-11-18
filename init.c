@@ -20,7 +20,7 @@ Game createGame(int nbOfPlayer) {
     game.listOfWalls = (Wall*)malloc(MAXWALL * nbOfPlayer * sizeof(Wall));
     game.nbWalls = 0;
     game.board = createBoard();
-    game.playerPlaying = 0;
+    game
 
     return game;
 }
