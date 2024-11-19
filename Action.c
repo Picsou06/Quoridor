@@ -65,31 +65,43 @@ void select_player(Game game)
                 select_wall(game);
                 printf("switch wall\n");
             case KEY_UP:
-                if (game.playerPlaying.y > game.playerPlaying.limitUp )
+                if (game.playerPlaying.MovementY > game.playerPlaying.limitDown )
                 {
                     game.playerPlaying.MovementY -= 1;
                     displayTempPlayer(game);
+                    printf("up\n");
+                } else {
+                    printf("%i, %i, %i, %i up impossible\n", game.playerPlaying.limitRight, game.playerPlaying.limitLeft, game.playerPlaying.limitUp, game.playerPlaying.limitDown);
                 }
                 break;
             case KEY_DOWN:
-                if (game.playerPlaying.y < game.playerPlaying.limitDown )
+                if (game.playerPlaying.MovementY < game.playerPlaying.limitUp )
                 {
                     game.playerPlaying.MovementY += 1;
                     displayTempPlayer(game);
+                    printf("down\n");
+                } else {
+                    printf("%i, %i, %i, %i down impossible\n", game.playerPlaying.MovementY, game.playerPlaying.MovementX, game.playerPlaying.limitDown, game.playerPlaying.limitUp);
                 }
                 break;
             case KEY_LEFT:
-                if (game.playerPlaying.x > game.playerPlaying.limitLeft)
+                if (game.playerPlaying.MovementX > game.playerPlaying.limitLeft)
                 {
                     game.playerPlaying.MovementX -= 1;
                     displayTempPlayer(game);
+                    printf("left\n");
+                } else {
+                    printf("%i, %i, %i, %i left impossible\n", game.playerPlaying.MovementY, game.playerPlaying.MovementX, game.playerPlaying.limitRight, game.playerPlaying.limitLeft);
                 }
                 break;
             case KEY_RIGHT:
-                if (game.playerPlaying.x < game.playerPlaying.limitRight ) 
+                if (game.playerPlaying.MovementX < game.playerPlaying.limitRight ) 
                 {
                     game.playerPlaying.MovementX += 1;
                     displayTempPlayer(game);
+                    printf("right\n");
+                } else {
+                    printf("%i, %i, %i, %i right impossible\n", game.playerPlaying.MovementY, game.playerPlaying.MovementX, game.playerPlaying.limitRight, game.playerPlaying.limitLeft);
                 }
                 break;
             case '\n':
@@ -106,7 +118,7 @@ void select_player(Game game)
 void switch_player(Game game){
 /*
     Fonction: switch_player
-    Auteur: Thomas et Evan 
+    Auteur:Thomas et Evan
     Paramètres: void
     Traitement : Permet de changer de joueur
     Retour: void

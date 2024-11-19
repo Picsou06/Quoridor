@@ -2,8 +2,8 @@
 
 Game createGame(int nbOfPlayer) {
     Game game;
-    Player Player1 = createPlayer('X', 0, 4, 0, 1, 9, 0, 0, 9);
-    Player Player2 = createPlayer('O', 1, 4, 9, -1, 9, 0, 0, 9);
+    Player Player1 = createPlayer('X', 0, 4, 0, 1, 0, 9, 0, 9);
+    Player Player2 = createPlayer('O', 1, 4, 9, -1, 0, 9, 0, 9);
     
     // Allocate memory for the list of players
     game.listOfPlayers = (Player*)malloc(nbOfPlayer * sizeof(Player));
@@ -20,8 +20,7 @@ Game createGame(int nbOfPlayer) {
     game.listOfWalls = (Wall*)malloc(MAXWALL * nbOfPlayer * sizeof(Wall));
     game.nbWalls = 0;
     game.board = createBoard();
-    game
-
+    
     return game;
 }
 
@@ -33,11 +32,13 @@ Player createPlayer(char icon, int color, int x, int y, int team, int limitRight
     Traitement : Crée un joueur avec des valeurs par défaut
     Retour: Player
     */
-    Player player;
+    Player* player;
     player.icon = icon;
     player.color = color;
     player.x = x;
     player.y = y;
+    player.MovementX = x;
+    player.MovementY = y;
     player.team = team;
     player.xWall = 5;
     player.yWall = 5;
@@ -47,6 +48,7 @@ Player createPlayer(char icon, int color, int x, int y, int team, int limitRight
     player.limitLeft = limitLeft;
     player.limitUp = limitUp;
     player.limitDown = limitDown;
+    printf("%i, %i, %i, %i debug\n", player.limitRight, player.limitLeft, player.limitUp, player.limitDown);
     return player;
 }
 
