@@ -34,27 +34,21 @@ typedef struct {
  } Wall;
 
 typedef struct {
-      char board[BOARD_SIZE*3][BOARD_SIZE*5];
-      int color[BOARD_SIZE*3][BOARD_SIZE*5];
- } Board;
-
-typedef struct {
    Player *listOfPlayers;
    int nbPlayers;
    Wall *listOfWalls;
    int nbWalls;
-   Board board;
    Player playerPlaying;
  } Game;
 
-Game createGame(int nbOfPlayer);
-Player createPlayer(char icon, int color, int x, int y, int team, int limitRight, int limitLeft, int limitUp, int limitDown);
-Board createBoard();
-void save_board(Game game);
-void draw_board(Game game);
-void draw_wall(Game game);
-void displayPlayer(Game game);
-void select_player(Game game);
-void switch_player(Game game);
-void displayTempPlayer(Game game);
+Game* createGame(int nbOfPlayer);
+Player* createPlayer(char icon, int color, int x, int y);
+void draw_board();
+void draw_wall(int x, int y, int axe, int color);
+void create_wall(Game* game, int x, int y, int axe, Player player);
+void draw_all_wall(Game* game);
+void displayPlayer(Game* game);
+void select_player(Game* game);
+void switch_player(Game* game);
+void displayTempPlayer(Game* game);
 #endif
