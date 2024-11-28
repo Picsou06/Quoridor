@@ -13,17 +13,6 @@ typedef struct {
     int color;
     int x;
     int y;
-    int MovementX;
-    int MovementY;
-    int team;
-    int nbWall;
-    int xWall;
-    int yWall;
-    int axes;
-    int limitRight;
-    int limitLeft;
-    int limitUp;
-    int limitDown;
  } Player;
 
 typedef struct {
