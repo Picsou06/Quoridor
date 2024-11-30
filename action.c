@@ -4,11 +4,12 @@
 void select_wall(Game* game) {
 /*
     Fonction: select_wall
-    Auteur:Evan et Wylan
+    Auteur:Evan
     Paramètres: void
     Traitement : Permet de déplacer le mur
     Retour: void
 */
+    Wall currentWall = create_wall(4, 4, 0, game->playerPlaying);
     int ch = 0;
 
     while (ch != '\n') {
@@ -21,23 +22,42 @@ void select_wall(Game* game) {
                 printf("switch player\n");
                 return;
             case KEY_UP:
-                if (game->playerPlaying.yWall > 0 ) game->playerPlaying.yWall -= 1;
-                break;
+                if (currentWall.y > 0 )
+                {
+                    redraw(game);
+                    currentWall.y -= 1;
+                    draw_wall(currentWall.x, currentWall.y, currentWall.axes, 1);
+                    break;
+                }
             case KEY_DOWN:
-                if (game->playerPlaying.yWall < 9) game->playerPlaying.yWall += 1;
-                break;
+                if (currentWall.y < 9) {
+                    redraw(game);
+                    currentWall.y += 1;
+                    draw_wall(currentWall.x, currentWall.y, currentWall.axes, 1);
+                    break;
+                }
             case KEY_LEFT:
-                if (game->playerPlaying.xWall > 0) game->playerPlaying.xWall -= 1;
-                break;
+                if (currentWall.x > 0) {
+                    redraw(game);
+                    currentWall.x -= 1;
+                    draw_wall(currentWall.x, currentWall.y, currentWall.axes, 1);
+                    break;
+                }
             case KEY_RIGHT:
-                if (game->playerPlaying.xWall < 9) game->playerPlaying.xWall += 1;
-                break;
+                if (currentWall.x < 9) {
+                    redraw(game);
+                    currentWall.x += 1;
+                    draw_wall(currentWall.x, currentWall.y, currentWall.axes, 1);
+                    break;
+                }
             case ' ':
-                game->playerPlaying.axes = !game->playerPlaying.axes;
+                redraw(game);
+                currentWall.axes = !currentWall.axes;
+                draw_wall(currentWall.x, currentWall.y, currentWall.axes, 1);
                 break;
             case '\n':
-                draw_wall(5, 5, 0, 1);(game);
-                draw_board();
+                add_wall(game, currentWall);
+                redraw(game);
                 switch_player(game);
                 select_player(game);
         }
