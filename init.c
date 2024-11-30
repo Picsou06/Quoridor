@@ -8,7 +8,7 @@ Game* createGame(int nbOfPlayer) {
     }
 
     // Alloue de la mémoire pour le tableau de structures Player
-    game->listOfPlayers = (Player*)malloc(nbOfPlayer * sizeof(Player));
+    game->listOfPlayers = (Player**)malloc(nbOfPlayer * sizeof(Player));
     if (game->listOfPlayers == NULL) {
         fprintf(stderr, "Memory allocation for players failed\n");
         free(game);
@@ -16,9 +16,9 @@ Game* createGame(int nbOfPlayer) {
     }
 
     // Crée et initialise les joueurs dynamiquement
-    game->listOfPlayers[0] = *createPlayer('X', 0, 4, 1);
+    game->listOfPlayers[0] = createPlayer('X', 0, 4, 0, 0);
     if (nbOfPlayer > 1) {
-        game->listOfPlayers[1] = *createPlayer('O', 1, 4, 2);
+        game->listOfPlayers[1] = createPlayer('O', 1, 4, 8, 0);
     }
     game->nbPlayers = nbOfPlayer;
 
@@ -36,19 +36,4 @@ Game* createGame(int nbOfPlayer) {
     game->playerPlaying = game->listOfPlayers[0];
 
     return game;
-}
-
-Player* createPlayer(char icon, int color, int x, int y) {
-    Player* player = (Player*)malloc(sizeof(Player));
-    if (player == NULL) {
-        fprintf(stderr, "Memory allocation for Player failed\n");
-        exit(1);
-    }
-
-    player->icon = icon;
-    player->color = color;
-    player->x = x;
-    player->y = y;
-    player->nbWall = MAXWALL;
-    return player;
 }

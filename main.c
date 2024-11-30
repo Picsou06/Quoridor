@@ -19,12 +19,8 @@ int main() {
     init_pair(3, COLOR_YELLOW, COLOR_BLACK);
     init_pair(4, COLOR_MAGENTA, COLOR_BLACK);
     Game* game = createGame(2);
-    draw_board();
-    create_wall(game, 5, 5, 1, game->listOfPlayers[0]);
-    create_wall(game, 1, 1, 0, game->listOfPlayers[1]);
-    create_wall(game, 2, 4, 0, game->listOfPlayers[0]);
-    draw_all_wall(game);
-    refresh();
+    redraw(game);
+    select_player(game);
 
     int ch = 0;
 

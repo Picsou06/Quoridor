@@ -8,7 +8,6 @@ void draw_wall(int x, int y, int axe, int color) {
     Traitement : Dessine les murs dans la Console
     Retour: void
     */
-   printf("Couleur: %i", color);
     int start_row = (LINES - (BOARD_SIZE * 2 + 1)) / 2;
     int start_col = (COLS - (BOARD_SIZE * MY_CELL_WIDTH)) / 2;
     int col = (x*4) + start_col;
@@ -51,7 +50,6 @@ void draw_all_wall(Game* game)
         draw_wall(game->listOfWalls[i].x, game->listOfWalls[i].y, game->listOfWalls[i].axes, game->listOfWalls[i].player.color);
         i++;
     }
-    printf("Wall showed: %d, %d", game->nbWalls, i);
 }
 
 Wall create_wall(int x, int y, int axes, Player player)
@@ -68,5 +66,4 @@ void add_wall(Game* game, Wall wall)
 {
     game->listOfWalls[game->nbWalls] = wall;
     game->nbWalls++;
-    printf("Wall created: %d", game->nbWalls);
 }

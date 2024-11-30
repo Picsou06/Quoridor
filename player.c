@@ -1,48 +1,54 @@
 #include "quoridor.h"
 
-void displayPlayer(Game* game) {
+void displayPlayer(Player player) {
     // Calculate the starting position to center the board
     int start_row = (LINES - (BOARD_SIZE * 2 + 1)) / 2;
     int start_col = (COLS - (BOARD_SIZE * MY_CELL_WIDTH)) / 2;
 
     // Calculate the position to display the player
-    int row = start_row + game->listOfPlayers[0].y * 2 + game->listOfPlayers[0].team;
-    int col = start_col + game->listOfPlayers[0].x * MY_CELL_WIDTH + MY_CELL_WIDTH / 2;
+    int row = start_row + (player.y) * 2 + 1;
+    int col = start_col + (player.x) * MY_CELL_WIDTH + 2;
+    
 
     // Apply the player's color
-    attron(COLOR_PAIR(game->listOfPlayers[0].color));
-    mvprintw(row, col, "%c", game->listOfPlayers[0].icon);
-    attroff(COLOR_PAIR(game->listOfPlayers[0].color));
-
-    row = start_row + game->listOfPlayers[1].y * 2 + game->listOfPlayers[1].team;
-    col = start_col + game->listOfPlayers[1].x * MY_CELL_WIDTH + MY_CELL_WIDTH / 2;
-
-    attron(COLOR_PAIR(game->listOfPlayers[1].color));
-    mvprintw(row, col, "%c", game->listOfPlayers[1].icon);
-    attroff(COLOR_PAIR(game->listOfPlayers[1].color));
+    attron(COLOR_PAIR(player.color));
+    mvprintw(row, col, "%c", player.icon);
+    attroff(COLOR_PAIR(player.color));
     refresh();
 }
 
-void displayTempPlayer(Game* game) {
-    draw_board();
-    // Calculate the starting position to center the board
-    int start_row = (LINES - (BOARD_SIZE * 2 + 1)) / 2;
-    int start_col = (COLS - (BOARD_SIZE * MY_CELL_WIDTH)) / 2;
+void displayAllPlayer(Game* game) {
+    for (int i = 0; i < game->nbPlayers; i++) {
+        displayPlayer(*game->listOfPlayers[i]);
+    }
+}
 
-    // Calculate the position to display the player
-    int row = start_row + game->listOfPlayers[0].MovementY * 2 + game->listOfPlayers[0].team;
-    int col = start_col + game->listOfPlayers[0].MovementX * MY_CELL_WIDTH + MY_CELL_WIDTH / 2;
+void displayTempPlayer(Game* game, Player currentPlayer) {
+    displayPlayer(currentPlayer);
 
-    // Apply the player's color
-    attron(COLOR_PAIR(game->listOfPlayers[0].color));
-    mvprintw(row, col, "%c", game->listOfPlayers[0].icon);
-    attroff(COLOR_PAIR(game->listOfPlayers[0].color));
+    int i = 0;
+    while (i < game->nbPlayers) {
+        if (game->listOfPlayers[i]->icon != currentPlayer.icon) {
+            displayPlayer(*game->listOfPlayers[i]);
+            return;
+        }
+        i++;
+    }
+}
 
-    row = start_row + game->listOfPlayers[1].MovementY * 2 + game->listOfPlayers[1].team;
-    col = start_col + game->listOfPlayers[1].MovementX * MY_CELL_WIDTH + MY_CELL_WIDTH / 2;
+Player* createPlayer(char icon, int color, int x, int y, int PlacementDifference) {
+    Player* player = (Player*)malloc(sizeof(Player));
+    if (player == NULL) {
+        fprintf(stderr, "Memory allocation for Player failed\n");
+        exit(1);
+    }
 
-    attron(COLOR_PAIR(game->listOfPlayers[1].color));
-    mvprintw(row, col, "%c", game->listOfPlayers[1].icon);
-    attroff(COLOR_PAIR(game->listOfPlayers[1].color));
-    refresh();
+    player->icon = icon;
+    player->color = color;
+    player->x = x;
+    player->y = y;
+    player->nbWall = MAXWALL;
+    player->PlacementDifference = PlacementDifference;
+
+    return player;
 }
