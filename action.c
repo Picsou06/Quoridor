@@ -82,7 +82,7 @@ void select_player(Game* game)
                 select_wall(game);
                 return;
             case KEY_UP:
-                if (check_player_mouvement(game, currentPlayer->x, currentPlayer->y - 1))
+                if (check_player_mouvement(game, currentPlayer->x, currentPlayer->y - 1) && check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y - 1))
                 {
                     currentPlayer->y -= 1;
                     draw_board();
@@ -98,7 +98,7 @@ void select_player(Game* game)
                 }
                 break;
             case KEY_DOWN:
-                if (check_player_mouvement(game, currentPlayer->x, currentPlayer->y + 1))
+                if (check_player_mouvement(game, currentPlayer->x, currentPlayer->y + 1) && check_player_passwall(game, 'd', currentPlayer->x, currentPlayer->y +1))
                 {
                     currentPlayer->y += 1;
                     draw_board();
@@ -114,7 +114,7 @@ void select_player(Game* game)
                 }
                 break;
             case KEY_LEFT:
-                if (check_player_mouvement(game, currentPlayer->x - 1, currentPlayer->y))
+                if (check_player_mouvement(game, currentPlayer->x - 1, currentPlayer->y) && check_player_passwall(game, 'l', currentPlayer->x - 1, currentPlayer->y))
                 {
                     currentPlayer->x -= 1;
                     draw_board();
@@ -130,7 +130,7 @@ void select_player(Game* game)
                 }
                 break;
             case KEY_RIGHT:
-                if (check_player_mouvement(game, currentPlayer->x + 1, currentPlayer->y))
+                if (check_player_mouvement(game, currentPlayer->x + 1, currentPlayer->y) && check_player_passwall(game, 'r', currentPlayer->x + 1, currentPlayer->y))
                 {
                     currentPlayer->x += 1;
                     draw_board();
@@ -182,8 +182,6 @@ bool check_player_mouvement(Game *game, int x, int y)
         opponent = 0;
     if (game->listOfPlayers[opponent]->x == x && game->listOfPlayers[opponent]->y == y)
         return false;
-    if (!check_player_passwall)
-        return false;
     return true;
 }
 
@@ -210,13 +208,51 @@ bool check_player_superposition(Game *game, int x, int y)
         return false;
     if (x < 0 || x > 8 || y < 0 || y > 8)
         return false;
-    if (!check_player_passwall)
-        return false;
     return true;
 }
 
-bool check_player_passwall(Game *game, int x, int y)
+bool check_player_passwall(Game *game, char mouvement, int x, int y)
 {
+    /*
+    Fonction: check_player_passwall
+    Auteur: Evan
+    Paramètres: Game game, Player currentPlayer, int x, int y
+    Traitement : Vérifie si le joueur peut se déplacer
+    Retour: bool
+    */
+    int i = 0;
+
+    while (i < game->nbWalls)
+    {
+        mvprintw(LINES / 2, 2, "Wall coordinates: (%d, %d, %d, %c)", game->listOfWalls[i].x, game->listOfWalls[i].y, game->listOfWalls[i].axes, mouvement);
+        mvprintw(LINES / 3, 2, "Player coordinates: (%d, %d)", x, y);
+        if (mouvement == 'r')
+        {
+            if (game->listOfWalls[i].axes == 1)
+                if ((game->listOfWalls[i].x == x && game->listOfWalls[i].y == y) || (game->listOfWalls[i].x == x && game->listOfWalls[i].y - 1 == y))
+                    return false;
+        }
+        else if (mouvement == 'l')
+        {
+            if (game->listOfWalls[i].axes == 1)
+                if ((game->listOfWalls[i].x - 1 == x && game->listOfWalls[i].y == y) || (game->listOfWalls[i].x - 1 == x && game->listOfWalls[i].y - 1 == y))
+                    return false;
+        }
+        else if (mouvement == 'd')
+        {
+            if (game->listOfWalls[i].axes == 0)
+                if ((game->listOfWalls[i].x - 1 == x && game->listOfWalls[i].y == y) || (game->listOfWalls[i].x == x && game->listOfWalls[i].y == y))
+                    return false;
+        }
+        else if (mouvement == 'u')
+        {
+            if (game->listOfWalls[i].axes == 0) {
+                if ((game->listOfWalls[i].x - 1 == x && game->listOfWalls[i].y - 1 == y) || (game->listOfWalls[i].x == x && game->listOfWalls[i].y - 1 == y))
+                    return false;
+            }
+        }
+        i++;
+    }
     return true;
 }
 

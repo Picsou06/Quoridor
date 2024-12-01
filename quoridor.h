@@ -46,7 +46,7 @@ void select_player(Game* game);
 void switch_player(Game* game);
 bool check_player_mouvement(Game *game, int x, int y);
 bool check_player_superposition(Game *game, int x, int y);
-bool check_player_passwall(Game *game, int x, int y);
+bool check_player_passwall(Game *game, char mouvement, int x, int y);
 
 // Function declarations for Wall
 Wall create_wall(int x, int y, int axes, Player player);
