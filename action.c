@@ -89,7 +89,7 @@ void select_player(Game* game)
                     draw_all_wall(game);
                     displayTempPlayer(game, *currentPlayer);
                 }
-                else if (check_player_superposition(game, currentPlayer->x, currentPlayer->y - 1))
+                else if (check_player_superposition(game, currentPlayer->x, currentPlayer->y - 1) && check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y - 2))
                 {
                     currentPlayer->y -= 2;
                     draw_board();
@@ -105,7 +105,7 @@ void select_player(Game* game)
                     draw_all_wall(game);
                     displayTempPlayer(game, *currentPlayer);
                 }
-                else if (check_player_superposition(game, currentPlayer->x, currentPlayer->y + 1))
+                else if (check_player_superposition(game, currentPlayer->x, currentPlayer->y + 1) && check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y + 2))
                 {
                     currentPlayer->y += 2;
                     draw_board();
@@ -121,7 +121,7 @@ void select_player(Game* game)
                     draw_all_wall(game);
                     displayTempPlayer(game, *currentPlayer);
                 }
-                else if (check_player_superposition(game, currentPlayer->x - 1, currentPlayer->y))
+                else if (check_player_superposition(game, currentPlayer->x - 1, currentPlayer->y) && check_player_passwall(game, 'u', currentPlayer->x - 2, currentPlayer->y))
                 {
                     currentPlayer->x -= 2;
                     draw_board();
@@ -137,7 +137,7 @@ void select_player(Game* game)
                     draw_all_wall(game);
                     displayTempPlayer(game, *currentPlayer);
                 }
-                else if (check_player_superposition(game, currentPlayer->x + 1, currentPlayer->y))
+                else if (check_player_superposition(game, currentPlayer->x + 1, currentPlayer->y) && check_player_passwall(game, 'u', currentPlayer->x + 2, currentPlayer->y))
                 {
                     currentPlayer->x += 2;
                     draw_board();
