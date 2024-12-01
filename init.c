@@ -16,9 +16,9 @@ Game* createGame(int nbOfPlayer) {
     }
 
     // Crée et initialise les joueurs dynamiquement
-    game->listOfPlayers[0] = createPlayer('X', 0, 4, 0, 0);
+    game->listOfPlayers[0] = createPlayer('X', 0, 4, 0);
     if (nbOfPlayer > 1) {
-        game->listOfPlayers[1] = createPlayer('O', 1, 4, 8, 0);
+        game->listOfPlayers[1] = createPlayer('O', 1, 4, 8);
     }
     game->nbPlayers = nbOfPlayer;
 

@@ -72,7 +72,7 @@ void select_player(Game* game)
     Retour: void
 */
 {
-    Player* currentPlayer = createPlayer(game->playerPlaying->icon, game->playerPlaying->color, game->playerPlaying->x, game->playerPlaying->y, game->playerPlaying->PlacementDifference);
+    Player* currentPlayer = createPlayer(game->playerPlaying->icon, game->playerPlaying->color, game->playerPlaying->x, game->playerPlaying->y);
     int ch = 0;
     while (ch != '\n') {
         ch = getch(); // Lire l'entrée utilisateur
@@ -82,36 +82,64 @@ void select_player(Game* game)
                 select_wall(game);
                 return;
             case KEY_UP:
-                if (currentPlayer->y > 0)
+                if (check_player_mouvement(game, currentPlayer->x, currentPlayer->y - 1))
                 {
                     currentPlayer->y -= 1;
                     draw_board();
                     draw_all_wall(game);
                     displayTempPlayer(game, *currentPlayer);
                 }
+                else if (check_player_superposition(game, currentPlayer->x, currentPlayer->y - 1))
+                {
+                    currentPlayer->y -= 2;
+                    draw_board();
+                    draw_all_wall(game);
+                    displayTempPlayer(game, *currentPlayer);
+                }
                 break;
             case KEY_DOWN:
-                if (currentPlayer->y < 8)
+                if (check_player_mouvement(game, currentPlayer->x, currentPlayer->y + 1))
                 {
                     currentPlayer->y += 1;
                     draw_board();
                     draw_all_wall(game);
                     displayTempPlayer(game, *currentPlayer);
                 }
+                else if (check_player_superposition(game, currentPlayer->x, currentPlayer->y + 1))
+                {
+                    currentPlayer->y += 2;
+                    draw_board();
+                    draw_all_wall(game);
+                    displayTempPlayer(game, *currentPlayer);
+                }
                 break;
             case KEY_LEFT:
-                if (currentPlayer->x > 0) 
+                if (check_player_mouvement(game, currentPlayer->x - 1, currentPlayer->y))
                 {
                     currentPlayer->x -= 1;
                     draw_board();
                     draw_all_wall(game);
                     displayTempPlayer(game, *currentPlayer);
                 }
+                else if (check_player_superposition(game, currentPlayer->x - 1, currentPlayer->y))
+                {
+                    currentPlayer->x -= 2;
+                    draw_board();
+                    draw_all_wall(game);
+                    displayTempPlayer(game, *currentPlayer);
+                }
                 break;
             case KEY_RIGHT:
-                if (currentPlayer->x < 8)
+                if (check_player_mouvement(game, currentPlayer->x + 1, currentPlayer->y))
                 {
                     currentPlayer->x += 1;
+                    draw_board();
+                    draw_all_wall(game);
+                    displayTempPlayer(game, *currentPlayer);
+                }
+                else if (check_player_superposition(game, currentPlayer->x + 1, currentPlayer->y))
+                {
+                    currentPlayer->x += 2;
                     draw_board();
                     draw_all_wall(game);
                     displayTempPlayer(game, *currentPlayer);
@@ -120,12 +148,76 @@ void select_player(Game* game)
             case '\n':
                 game->playerPlaying->x = currentPlayer->x;
                 game->playerPlaying->y = currentPlayer->y;
+                checkvictory(game);
                 redraw(game);
                 switch_player(game);
                 select_player(game);
                 break;
         }
     }
+}
+
+bool check_player_mouvement(Game *game, int x, int y)
+{
+    /*
+    Fonction: check_player_mouvement
+    Auteur: Evan
+    Paramètres: Game game, Player currentPlayer, int x, int y
+    Traitement : Vérifie si le joueur peut se déplacer
+    Retour: bool
+    */
+    if (x < 0 || x > 8 || y < 0 || y > 8)
+        return false;
+    if ((abs(x - game->playerPlaying->x) > 1 || abs(y - game->playerPlaying->y) > 1) || (abs(x - game->playerPlaying->x) == 1 && abs(y - game->playerPlaying->y) == 1))
+        return false;
+    int opponent = 0;
+
+    for (int i = 0; i < game->nbPlayers; i++)
+    {
+        if (game->playerPlaying->icon == game->listOfPlayers[i]->icon)
+            opponent = i;
+    }
+    opponent++;
+    if(opponent >= game->nbPlayers)
+        opponent = 0;
+    if (game->listOfPlayers[opponent]->x == x && game->listOfPlayers[opponent]->y == y)
+        return false;
+    if (!check_player_passwall)
+        return false;
+    return true;
+}
+
+bool check_player_superposition(Game *game, int x, int y)
+{
+    /*
+    Fonction: check_player_superposition
+    Auteur: Evan
+    Paramètres: Game game, Player currentPlayer, int x, int y
+    Traitement : Vérifie si le joueur peut se déplacer
+    Retour: bool
+    */
+    int opponent = 0;
+
+    for (int i = 0; i < game->nbPlayers; i++)
+    {
+        if (game->playerPlaying->icon == game->listOfPlayers[i]->icon)
+            opponent = i;
+    }
+    opponent++;
+    if(opponent >= game->nbPlayers)
+        opponent = 0;
+    if (game->listOfPlayers[opponent]->x != x || game->listOfPlayers[opponent]->y != y)
+        return false;
+    if (x < 0 || x > 8 || y < 0 || y > 8)
+        return false;
+    if (!check_player_passwall)
+        return false;
+    return true;
+}
+
+bool check_player_passwall(Game *game, int x, int y)
+{
+    return true;
 }
 
 void switch_player(Game* game){

@@ -14,6 +14,7 @@ int main() {
     noecho();
     keypad(stdscr, TRUE);
     start_color();
+    init_pair(0, COLOR_RED, COLOR_BLACK);
     init_pair(1, COLOR_BLUE, COLOR_BLACK);
     init_pair(2, COLOR_GREEN, COLOR_BLACK);
     init_pair(3, COLOR_YELLOW, COLOR_BLACK);
@@ -24,7 +25,7 @@ int main() {
 
     int ch = 0;
 
-    while (ch != '\n') 
+    while (ch != '\n')
     {
         ch = getch();
     }

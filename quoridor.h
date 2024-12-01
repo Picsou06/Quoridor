@@ -6,7 +6,9 @@
 #define BOARD_SIZE 9
 #define MY_CELL_WIDTH 4
 #define MAXWALL 10
-#define legroscraneABassem 50
+#define victoryPlayer1 8
+#define victoryPlayer2 0
+
 
 typedef struct {
    char icon;
@@ -14,7 +16,6 @@ typedef struct {
    int x;
    int y;
    int nbWall;
-   int PlacementDifference;
 } Player;
 
 typedef struct {
@@ -34,14 +35,18 @@ typedef struct {
 
 // Function declarations for Game
 Game* createGame(int nbOfPlayer);
+void checkvictory(Game *game);
 
 // Function declarations for Player
-Player* createPlayer(char icon, int color, int x, int y, int PlacementDifference);
+Player* createPlayer(char icon, int color, int x, int y);
 void displayPlayer(Player Player);
 void displayTempPlayer(Game* game, Player currentPlayer);
 void displayAllPlayer(Game* game);
 void select_player(Game* game);
 void switch_player(Game* game);
+bool check_player_mouvement(Game *game, int x, int y);
+bool check_player_superposition(Game *game, int x, int y);
+bool check_player_passwall(Game *game, int x, int y);
 
 // Function declarations for Wall
 Wall create_wall(int x, int y, int axes, Player player);

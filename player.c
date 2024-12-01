@@ -36,7 +36,7 @@ void displayTempPlayer(Game* game, Player currentPlayer) {
     }
 }
 
-Player* createPlayer(char icon, int color, int x, int y, int PlacementDifference) {
+Player* createPlayer(char icon, int color, int x, int y) {
     Player* player = (Player*)malloc(sizeof(Player));
     if (player == NULL) {
         fprintf(stderr, "Memory allocation for Player failed\n");
@@ -48,7 +48,6 @@ Player* createPlayer(char icon, int color, int x, int y, int PlacementDifference
     player->x = x;
     player->y = y;
     player->nbWall = MAXWALL;
-    player->PlacementDifference = PlacementDifference;
 
     return player;
 }
