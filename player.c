@@ -1,16 +1,11 @@
 #include "quoridor.h"
 
 void displayPlayer(Player player) {
-    // Calculate the starting position to center the board
     int start_row = (LINES - (BOARD_SIZE * 2 + 1)) / 2;
     int start_col = (COLS - (BOARD_SIZE * MY_CELL_WIDTH)) / 2;
-
-    // Calculate the position to display the player
     int row = start_row + (player.y) * 2 + 1;
     int col = start_col + (player.x) * MY_CELL_WIDTH + 2;
-    
-
-    // Apply the player's color
+    mvprintw(row, 5, "%d", player.color);
     attron(COLOR_PAIR(player.color));
     mvprintw(row, col, "%c", player.icon);
     attroff(COLOR_PAIR(player.color));
@@ -25,6 +20,7 @@ void displayAllPlayer(Game* game) {
 
 void displayTempPlayer(Game* game, Player currentPlayer) {
     displayPlayer(currentPlayer);
+    
 
     int i = 0;
     while (i < game->nbPlayers) {

@@ -13,7 +13,7 @@ void select_wall(Game* game) {
     int ch = 0;
 
     while (ch != '\n') {
-        ch = getch(); 
+        ch = getch();
         draw_wall(5, 5, 0, 1);
         switch (ch) {
             case 's':
@@ -224,8 +224,6 @@ bool check_player_passwall(Game *game, char mouvement, int x, int y)
 
     while (i < game->nbWalls)
     {
-        mvprintw(LINES / 2, 2, "Wall coordinates: (%d, %d, %d, %c)", game->listOfWalls[i].x, game->listOfWalls[i].y, game->listOfWalls[i].axes, mouvement);
-        mvprintw(LINES / 3, 2, "Player coordinates: (%d, %d)", x, y);
         if (mouvement == 'r')
         {
             if (game->listOfWalls[i].axes == 1)
