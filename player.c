@@ -12,6 +12,16 @@ void displayPlayer(Player player) {
     refresh();
 }
 
+void displayNbWall(Game* game) {
+    int x = 0;
+    int y = 0;
+    for (int i = 0; i < game->nbWalls; i++)
+    {
+        mvprintw(x, y, "Player %d: %d", i, game->listOfPlayers[i]->nbWall);
+        x++;
+    }   
+}
+
 void displayAllPlayer(Game* game) {
     for (int i = 0; i < game->nbPlayers; i++) {
         displayPlayer(*game->listOfPlayers[i]);

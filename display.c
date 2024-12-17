@@ -5,5 +5,6 @@ void redraw(Game* game) {
     draw_board();
     draw_all_wall(game);
     displayAllPlayer(game);
+    displayNbWall(game);
     refresh();
 }

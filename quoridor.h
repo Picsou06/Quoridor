@@ -40,6 +40,7 @@ void checkvictory(Game *game);
 // Function declarations for Player
 Player* createPlayer(char icon, int color, int x, int y);
 void displayPlayer(Player Player);
+void displayNbWall(Game* game);
 void displayTempPlayer(Game* game, Player currentPlayer);
 void displayAllPlayer(Game* game);
 void select_player(Game* game);

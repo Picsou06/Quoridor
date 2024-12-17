@@ -15,6 +15,7 @@ void select_wall(Game* game) {
     while (ch != '\n') {
         ch = getch();
         draw_wall(5, 5, 0, 1);
+        displayNbWall(game);
         switch (ch) {
             case 's':
                 redraw(game);
@@ -57,6 +58,7 @@ void select_wall(Game* game) {
             case '\n':
                 add_wall(game, currentWall);
                 redraw(game);
+                game->playerPlaying->nbWall--;
                 switch_player(game);
                 select_player(game);
         }
