@@ -14,9 +14,16 @@ void displayPlayer(Player player) {
 void displayNbWall(Game* game) {
     int x = 0;
     int y = 0;
+    int number_of_wall;
     for (int i = 0; i < game->nbPlayers; i++)
     {
-        mvprintw(x, y, "Player %d: %d", i, game->listOfPlayers[i]->nbWall);
+        number_of_wall = 0;
+        for (int j = 0; j < game->nbWalls; j++)
+        {
+            if (game->listOfWalls[j].player.icon == game->listOfPlayers[i]->icon)
+                number_of_wall++;
+        }
+        mvprintw(x, y, "Player %d: %d", i, number_of_wall);
         x++;
     }
 }
@@ -52,7 +59,6 @@ Player* createPlayer(char icon, int color, int x, int y) {
     player->color = color;
     player->x = x;
     player->y = y;
-    player->nbWall = MAXWALL;
 
     return player;
 }

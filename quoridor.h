@@ -7,7 +7,7 @@
 
 #define BOARD_SIZE 9
 #define MY_CELL_WIDTH 4
-#define MAXWALL 10
+#define MAXWALL 2
 #define victoryPlayer1 8
 #define victoryPlayer2 0
 
@@ -17,7 +17,6 @@ typedef struct {
    int color;
    int x;
    int y;
-   int nbWall;
 } Player;
 
 typedef struct {
