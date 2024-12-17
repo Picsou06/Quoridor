@@ -403,3 +403,4 @@ void switch_player(Game* game){
         emplacement = 0;
     game->playerPlaying = game->listOfPlayers[emplacement];
 }
+//salut
