@@ -66,5 +66,5 @@ void add_wall(Game* game, Wall wall)
 {
     game->listOfWalls[game->nbWalls] = wall;
     game->nbWalls++;
-    wall.player.nbWall++;
+    game->playerPlaying->nbWall--;
 }

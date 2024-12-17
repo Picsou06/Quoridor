@@ -14,11 +14,11 @@ void displayPlayer(Player player) {
 void displayNbWall(Game* game) {
     int x = 0;
     int y = 0;
-    for (int i = 0; i < game->nbWalls; i++)
+    for (int i = 0; i < game->nbPlayers; i++)
     {
         mvprintw(x, y, "Player %d: %d", i, game->listOfPlayers[i]->nbWall);
         x++;
-    }   
+    }
 }
 
 void displayAllPlayer(Game* game) {
