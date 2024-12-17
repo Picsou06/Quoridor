@@ -199,8 +199,17 @@ void select_player(Game* game)
         switch (ch) {
             case '5':
             case 's':
-                redraw(game);
-                select_wall(game);
+                int number_of_wall = 0;
+                for (int i = 0; i < game->nbWalls; i++)
+                {
+                    if (game->listOfWalls[i].player.icon == game->playerPlaying->icon)
+                        number_of_wall++;
+                }
+                if (number_of_wall < MAXWALL)
+                {
+                    redraw(game);
+                    select_wall(game);
+                }
                 return;
             case '8':
             case KEY_UP:
