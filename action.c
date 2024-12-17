@@ -10,59 +10,178 @@ void select_wall(Game* game) {
     Retour: void
 */
     Wall currentWall = create_wall(4, 4, 0, *game->playerPlaying);
+    redraw(game);
+    draw_wall(currentWall.x, currentWall.y, currentWall.axes, game->playerPlaying->color);
     int ch = 0;
 
-    while (ch != '\n') {
+    while (1) {
         ch = getch();
         draw_wall(5, 5, 0, 1);
-        displayNbWall(game);
         switch (ch) {
+            case '5':
             case 's':
                 redraw(game);
                 select_player(game);
                 return;
+            case '8':
             case KEY_UP:
-                if (currentWall.y > 0 )
+                if (currentWall.y > 0)
                 {
                     redraw(game);
                     currentWall.y -= 1;
                     draw_wall(currentWall.x, currentWall.y, currentWall.axes, game->playerPlaying->color);
-                    break;
                 }
+                break;
+            case '2':
             case KEY_DOWN:
                 if (currentWall.y < 9) {
                     redraw(game);
                     currentWall.y += 1;
                     draw_wall(currentWall.x, currentWall.y, currentWall.axes, game->playerPlaying->color);
-                    break;
                 }
+                break;
+            case '4':
             case KEY_LEFT:
                 if (currentWall.x > 0) {
                     redraw(game);
                     currentWall.x -= 1;
                     draw_wall(currentWall.x, currentWall.y, currentWall.axes, game->playerPlaying->color);
-                    break;
                 }
+                break;
+            case '6':
             case KEY_RIGHT:
                 if (currentWall.x < 9) {
                     redraw(game);
                     currentWall.x += 1;
                     draw_wall(currentWall.x, currentWall.y, currentWall.axes, game->playerPlaying->color);
-                    break;
                 }
+                break;
+            case '0':
             case ' ':
                 redraw(game);
                 currentWall.axes = !currentWall.axes;
                 draw_wall(currentWall.x, currentWall.y, currentWall.axes, game->playerPlaying->color);
                 break;
             case '\n':
-                add_wall(game, currentWall);
-                redraw(game);
-                game->playerPlaying->nbWall--;
-                switch_player(game);
-                select_player(game);
+                if (can_place_wall(game, currentWall))
+                {
+                    add_wall(game, currentWall);
+                    redraw(game);
+                    switch_player(game);
+                    select_player(game);
+                }
+                else
+                {
+                    redraw(game);
+                    select_wall(game);
+                }
+                break;
+            default:
+                break;
         }
     }
+}
+
+bool can_place_wall(Game* game, Wall wall) {
+    // Vérifiez si tous les joueurs peuvent atteindre leur côté opposé
+    bool path_possible = true;
+
+    if (is_wall_at_placement(game, wall.x, wall.y, wall.axes))
+        path_possible = false;
+
+    // Ajoutez temporairement le mur
+    game->listOfWalls[game->nbWalls] = wall;
+    game->nbWalls++;
+
+    for (int i = 0; i < game->nbPlayers; i++) {
+        Player* player = game->listOfPlayers[i];
+        int target_y = (player->icon == 'X') ? victoryPlayer1 : victoryPlayer2;
+        if (!is_path_possible(game, player, target_y)) {
+            path_possible = false;
+            break;
+        }
+
+    }
+    int number_of_wall = 0;
+    for (size_t i = 0; i < game->nbWalls; i++)
+    {
+        if (game->listOfWalls[i].player.icon == game->playerPlaying->icon)
+            number_of_wall++;
+    }
+    if (number_of_wall >= MAXWALL)
+        path_possible = false;
+    game->nbWalls--;
+
+    if(game->playerPlaying->nbWall <= 0)
+        path_possible = false;
+
+
+    return path_possible;
+}
+
+bool is_wall_at_placement(Game* game, int x, int y, int axes) {
+    for (int i = 0; i < game->nbWalls; i++) {
+        Wall wall = game->listOfWalls[i];
+        if (axes == 0) {
+            if (wall.axes == 0) {
+                if ((wall.x == x && wall.y == y) || (wall.x == x + 1 && wall.y == y) || (wall.x == x - 1 && wall.y == y)) {
+                    return true;
+                }
+            } else { // Compare with a vertical wall
+                if ((wall.x == x && wall.y == y) || (wall.x == x && wall.y == y + 1) || (wall.x == x && wall.y == y - 1)) {
+                    return true;
+                }
+            }
+        } else {
+            if (wall.axes == 1) {
+                if ((wall.x == x && wall.y == y) || (wall.x == x && wall.y == y + 1) || (wall.x == x && wall.y == y -1)) {
+                    return true;
+                }
+            } else { // Compare with a horizontal wall
+                if ((wall.x == x && wall.y == y)) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+bool is_path_possible(Game* game, Player* player, int target_y) {
+    int visited[BOARD_SIZE][BOARD_SIZE] = {0};
+    Queue* q = createQueue();
+    enqueue(q, (Point){player->x, player->y});
+    visited[player->x][player->y] = 1;
+
+    while (!isQueueEmpty(q)) {
+        Point p = dequeue(q);
+        int x = p.x;
+        int y = p.y;
+
+        if (y == target_y) {
+            freeQueue(q);
+            return true;
+        }
+        if (y > 0 && !visited[x][y - 1] && check_player_passwall(game, 'u', x, y - 1)) {
+            enqueue(q, (Point){x, y - 1});
+            visited[x][y - 1] = 1;
+        }
+        if (y < BOARD_SIZE - 1 && !visited[x][y + 1] && check_player_passwall(game, 'd', x, y + 1)) {
+            enqueue(q, (Point){x, y + 1});
+            visited[x][y + 1] = 1;
+        }
+        if (x > 0 && !visited[x - 1][y] && check_player_passwall(game, 'l', x - 1, y)) {
+            enqueue(q, (Point){x - 1, y});
+            visited[x - 1][y] = 1;
+        }
+        if (x < BOARD_SIZE - 1 && !visited[x + 1][y] && check_player_passwall(game, 'r', x + 1, y)) {
+            enqueue(q, (Point){x + 1, y});
+            visited[x + 1][y] = 1;
+        }
+    }
+
+    freeQueue(q);
+    return false;
 }
 
 void select_player(Game* game)
@@ -79,10 +198,12 @@ void select_player(Game* game)
     while (ch != '\n') {
         ch = getch(); // Lire l'entrée utilisateur
         switch (ch) {
+            case '5':
             case 's':
                 redraw(game);
                 select_wall(game);
                 return;
+            case '8':
             case KEY_UP:
                 if (check_player_mouvement(game, currentPlayer->x, currentPlayer->y - 1) && check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y - 1))
                 {
@@ -99,6 +220,7 @@ void select_player(Game* game)
                     displayTempPlayer(game, *currentPlayer);
                 }
                 break;
+            case '2':
             case KEY_DOWN:
                 if (check_player_mouvement(game, currentPlayer->x, currentPlayer->y + 1) && check_player_passwall(game, 'd', currentPlayer->x, currentPlayer->y +1))
                 {
@@ -115,6 +237,7 @@ void select_player(Game* game)
                     displayTempPlayer(game, *currentPlayer);
                 }
                 break;
+            case '4':
             case KEY_LEFT:
                 if (check_player_mouvement(game, currentPlayer->x - 1, currentPlayer->y) && check_player_passwall(game, 'l', currentPlayer->x - 1, currentPlayer->y))
                 {
@@ -131,6 +254,7 @@ void select_player(Game* game)
                     displayTempPlayer(game, *currentPlayer);
                 }
                 break;
+            case '6':
             case KEY_RIGHT:
                 if (check_player_mouvement(game, currentPlayer->x + 1, currentPlayer->y) && check_player_passwall(game, 'r', currentPlayer->x + 1, currentPlayer->y))
                 {
@@ -147,6 +271,14 @@ void select_player(Game* game)
                     displayTempPlayer(game, *currentPlayer);
                 }
                 break;
+           /*  case '9':
+                if (check_player_superposition(game, currentPlayer->x, currentPlayer->y + 1) && check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y + 2))
+                {
+                    currentPlayer->y += 2;
+                    draw_board();
+                    draw_all_wall(game);
+                    displayTempPlayer(game, *currentPlayer);
+                } */
             case '\n':
                 game->playerPlaying->x = currentPlayer->x;
                 game->playerPlaying->y = currentPlayer->y;
