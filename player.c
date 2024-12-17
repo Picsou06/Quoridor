@@ -5,7 +5,6 @@ void displayPlayer(Player player) {
     int start_col = (COLS - (BOARD_SIZE * MY_CELL_WIDTH)) / 2;
     int row = start_row + (player.y) * 2 + 1;
     int col = start_col + (player.x) * MY_CELL_WIDTH + 2;
-    mvprintw(row, 5, "%d", player.color);
     attron(COLOR_PAIR(player.color));
     mvprintw(row, col, "%c", player.icon);
     attroff(COLOR_PAIR(player.color));

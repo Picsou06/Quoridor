@@ -2,6 +2,8 @@
 #define HEADER_H
 #include <ncursesw/curses.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include "queue.h"
 
 #define BOARD_SIZE 9
 #define MY_CELL_WIDTH 4
@@ -53,6 +55,9 @@ Wall create_wall(int x, int y, int axes, Player player);
 void add_wall(Game* game, Wall wall);
 void draw_wall(int x, int y, int axe, int color);
 void draw_all_wall(Game* game);
+bool can_place_wall(Game* game, Wall wall);
+bool is_path_possible(Game* game, Player* player, int target_y);
+bool is_wall_at_placement(Game* game, int x, int y, int axes);
 
 // Function declarations for drawing
 void draw_board();
