@@ -14,8 +14,9 @@ void select_wall(Game* game) {
     draw_wall(currentWall.x, currentWall.y, currentWall.axes, game->playerPlaying->color);
     int ch = 0;
 
-    while (1) {
+    while (ch != '\n') {
         ch = getch();
+        draw_wall(5, 5, 0, 1);
         switch (ch) {
             case '5':
             case 's':
@@ -102,18 +103,14 @@ bool can_place_wall(Game* game, Wall wall) {
 
     }
     int number_of_wall = 0;
-    for (size_t i = 0; i < game->nbWalls; i++)
+    for (int i = 0; i < game->nbWalls; i++)
     {
         if (game->listOfWalls[i].player.icon == game->playerPlaying->icon)
             number_of_wall++;
     }
-    if (number_of_wall >= MAXWALL)
+    if (number_of_wall > MAXWALL)
         path_possible = false;
     game->nbWalls--;
-
-    if(game->playerPlaying->nbWall <= 0)
-        path_possible = false;
-
 
     return path_possible;
 }

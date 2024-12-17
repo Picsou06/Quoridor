@@ -11,6 +11,23 @@ void displayPlayer(Player player) {
     refresh();
 }
 
+void displayNbWall(Game* game) {
+    int x = 0;
+    int y = 0;
+    int number_of_wall;
+    for (int i = 0; i < game->nbPlayers; i++)
+    {
+        number_of_wall = 0;
+        for (int j = 0; j < game->nbWalls; j++)
+        {
+            if (game->listOfWalls[j].player.icon == game->listOfPlayers[i]->icon)
+                number_of_wall++;
+        }
+        mvprintw(x, y, "Player %d: %d", i, number_of_wall);
+        x++;
+    }
+}
+
 void displayAllPlayer(Game* game) {
     for (int i = 0; i < game->nbPlayers; i++) {
         displayPlayer(*game->listOfPlayers[i]);
@@ -42,7 +59,6 @@ Player* createPlayer(char icon, int color, int x, int y) {
     player->color = color;
     player->x = x;
     player->y = y;
-    player->nbWall = MAXWALL;
 
     return player;
 }
