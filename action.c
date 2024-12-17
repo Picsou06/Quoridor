@@ -191,12 +191,13 @@ void select_player(Game* game)
 {
     Player* currentPlayer = createPlayer(game->playerPlaying->icon, game->playerPlaying->color, game->playerPlaying->x, game->playerPlaying->y);
     int ch = 0;
+    int number_of_wall = 0;
     while (ch != '\n') {
         ch = getch(); // Lire l'entrée utilisateur
         switch (ch) {
             case '5':
             case 's':
-                int number_of_wall = 0;
+                number_of_wall = 0;
                 for (int i = 0; i < game->nbWalls; i++)
                 {
                     if (game->listOfWalls[i].player.icon == game->playerPlaying->icon)
@@ -207,7 +208,7 @@ void select_player(Game* game)
                     redraw(game);
                     select_wall(game);
                 }
-                return;
+                break;
             case '8':
             case KEY_UP:
                 if (check_player_mouvement(game, currentPlayer->x, currentPlayer->y - 1) && check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y - 1))
