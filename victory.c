@@ -22,6 +22,3 @@ void checkvictory(Game *game)
         exit(0);
     }
 }
-
-
-GROSSE PUTE
