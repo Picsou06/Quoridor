@@ -12,8 +12,8 @@ void displayPlayer(Player player) {
 }
 
 void displayNbWall(Game* game) {
-    int x = 0;
-    int y = 0;
+    int x = (LINES - (BOARD_SIZE * 2 + 1)) / 2 - 1;
+    int y = (COLS - (BOARD_SIZE * MY_CELL_WIDTH)) / 2;
     int number_of_wall;
     for (int i = 0; i < game->nbPlayers; i++)
     {
@@ -23,8 +23,10 @@ void displayNbWall(Game* game) {
             if (game->listOfWalls[j].player.icon == game->listOfPlayers[i]->icon)
                 number_of_wall++;
         }
-        mvprintw(x, y, "Player %d: %d", i, number_of_wall);
-        x++;
+        mvprintw(x, y, "%c Walls: %d", game->listOfPlayers[i]->icon, MAXWALL-number_of_wall);
+        char number_of_wall_str[100];
+        itoa(MAXWALL-number_of_wall, number_of_wall_str, 10);
+        y+=BOARD_SIZE*MY_CELL_WIDTH-strlen("x Walls: ")-strlen(number_of_wall_str)+1;
     }
 }
 

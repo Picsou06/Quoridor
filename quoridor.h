@@ -3,6 +3,7 @@
 #include <ncursesw/curses.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 #include "queue.h"
 
 #define BOARD_SIZE 9
