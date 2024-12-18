@@ -8,7 +8,7 @@
 
 #define BOARD_SIZE 9
 #define MY_CELL_WIDTH 4
-#define MAXWALL 2
+#define MAXWALL 10
 #define victoryPlayer1 8
 #define victoryPlayer2 0
 

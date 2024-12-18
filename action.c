@@ -76,8 +76,6 @@ void select_wall(Game* game) {
                     select_wall(game);
                 }
                 break;
-            default:
-                break;
         }
     }
 }
@@ -192,8 +190,15 @@ void select_player(Game* game)
     Player* currentPlayer = createPlayer(game->playerPlaying->icon, game->playerPlaying->color, game->playerPlaying->x, game->playerPlaying->y);
     int ch = 0;
     int number_of_wall = 0;
+    int diagonale = 0;
     while (ch != '\n') {
-        ch = getch(); // Lire l'entrée utilisateur
+        ch = getch();
+        if (diagonale==1)
+        {
+            currentPlayer->x = game->playerPlaying->x;
+            currentPlayer->y = game->playerPlaying->y;
+            diagonale = 0;
+        }
         switch (ch) {
             case '5':
             case 's':
@@ -277,14 +282,30 @@ void select_player(Game* game)
                     displayTempPlayer(game, *currentPlayer);
                 }
                 break;
-           /*  case '9':
-                if (check_player_superposition(game, currentPlayer->x, currentPlayer->y + 1) && check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y + 2))
+            case '9':
+                if (check_player_superposition(game, currentPlayer->x, currentPlayer->y - 1) && !check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y - 2) && check_player_passwall(game, 'r', currentPlayer->x + 1, currentPlayer->y - 1))
                 {
-                    currentPlayer->y += 2;
+                    currentPlayer->x += 1;
+                    currentPlayer->y -= 1;
                     draw_board();
                     draw_all_wall(game);
                     displayTempPlayer(game, *currentPlayer);
-                } */
+                    diagonale = 1;
+                }
+                mvprintw(0, 0, "%d %d %d", check_player_superposition(game, currentPlayer->x, currentPlayer->y - 1), !check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y - 2), check_player_passwall(game, 'r', currentPlayer->x + 1, currentPlayer->y - 1));
+                break;
+            case '7':
+                if (check_player_superposition(game, currentPlayer->x, currentPlayer->y - 1) && !check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y - 2) && check_player_passwall(game, 'l', currentPlayer->x - 1, currentPlayer->y - 1))
+                {
+                    currentPlayer->x -= 1;
+                    currentPlayer->y -= 1;
+                    draw_board();
+                    draw_all_wall(game);
+                    displayTempPlayer(game, *currentPlayer);
+                    diagonale = 1;
+                }
+                mvprintw(0, 0, "%d %d %d", check_player_superposition(game, currentPlayer->x, currentPlayer->y - 1), !check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y - 2), check_player_passwall(game, 'l', currentPlayer->x - 1, currentPlayer->y - 1));
+                break;
             case '\n':
                 game->playerPlaying->x = currentPlayer->x;
                 game->playerPlaying->y = currentPlayer->y;
