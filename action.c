@@ -473,5 +473,6 @@ void switch_player(Game* game){
     emplacement++;
     if(emplacement >= game->nbPlayers)
         emplacement = 0;
+    save_game(*game);
     game->playerPlaying = game->listOfPlayers[emplacement];
 }
