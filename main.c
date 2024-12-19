@@ -19,7 +19,6 @@ int main() {
     init_pair(4, COLOR_MAGENTA, COLOR_BLACK);
 
     chooseOptions();
-    
 
     endwin();
 
