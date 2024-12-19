@@ -38,6 +38,9 @@ typedef struct {
 // Function declarations for Game
 Game* createGame(int nbOfPlayer);
 void checkvictory(Game *game);
+void chooseOptions();
+void save_game(Game game);
+void load_game();
 
 // Function declarations for Player
 Player* createPlayer(char icon, int color, int x, int y);
@@ -63,6 +66,6 @@ bool is_wall_at_placement(Game* game, int x, int y, int axes);
 // Function declarations for drawing
 void draw_board();
 void redraw(Game* game);
-void chooseOptions();
+
 
 #endif

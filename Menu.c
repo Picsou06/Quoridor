@@ -41,7 +41,7 @@ void chooseOptions(){
                     redraw(game);
                     select_player(game);
                 } else if (choix == 1) {
-                    // do something
+                    load_game();
                 } else if (choix == 2) {
                     endwin();
                     exit(0);
