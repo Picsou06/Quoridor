@@ -349,7 +349,6 @@ void select_player(Game* game)
             case '\n':
                 game->playerPlaying->x = currentPlayer->x;
                 game->playerPlaying->y = currentPlayer->y;
-                checkvictory(game);
                 redraw(game);
                 switch_player(game);
                 select_player(game);
@@ -475,4 +474,5 @@ void switch_player(Game* game){
         emplacement = 0;
     game->playerPlaying = game->listOfPlayers[emplacement];
     save_game(*game);
+    checkvictory(game);
 }
