@@ -16,7 +16,6 @@ void select_wall(Game* game) {
 
     while (ch != '\n') {
         ch = getch();
-        draw_wall(5, 5, 0, 1);
         switch (ch) {
             case '5':
             case 's':
