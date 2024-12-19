@@ -18,16 +18,10 @@ int main() {
     init_pair(3, COLOR_YELLOW, COLOR_BLACK);
     init_pair(4, COLOR_MAGENTA, COLOR_BLACK);
 
-    Game* game = createGame(2);
-    redraw(game);
-    select_player(game);
-
-    int ch = 0;
-
-    while (ch != '\n')
-    {
-        ch = getch();
-    }
+    // Game* game = createGame(2);
+    // redraw(game);
+    // select_player(game);
+    
 
     endwin();
 
