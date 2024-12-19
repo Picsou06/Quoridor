@@ -216,6 +216,8 @@ void select_player(Game* game)
                 }
                 break;
             case '8':
+            case 'z':
+            case 'Z':
             case KEY_UP:
                 if (check_player_mouvement(game, currentPlayer->x, currentPlayer->y - 1) && check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y - 1))
                 {
@@ -233,6 +235,8 @@ void select_player(Game* game)
                 }
                 break;
             case '2':
+            case 'x':
+            case 'X':
             case KEY_DOWN:
                 if (check_player_mouvement(game, currentPlayer->x, currentPlayer->y + 1) && check_player_passwall(game, 'd', currentPlayer->x, currentPlayer->y +1))
                 {
@@ -250,6 +254,8 @@ void select_player(Game* game)
                 }
                 break;
             case '4':
+            case 'q':
+            case 'Q':
             case KEY_LEFT:
                 if (check_player_mouvement(game, currentPlayer->x - 1, currentPlayer->y) && check_player_passwall(game, 'l', currentPlayer->x - 1, currentPlayer->y))
                 {
@@ -267,6 +273,8 @@ void select_player(Game* game)
                 }
                 break;
             case '6':
+            case 'd':
+            case 'D':
             case KEY_RIGHT:
                 if (check_player_mouvement(game, currentPlayer->x + 1, currentPlayer->y) && check_player_passwall(game, 'r', currentPlayer->x + 1, currentPlayer->y))
                 {
@@ -284,6 +292,8 @@ void select_player(Game* game)
                 }
                 break;
             case '9':
+            case 'e':
+            case 'E':
                 if (check_player_superposition(game, currentPlayer->x, currentPlayer->y - 1) && !check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y - 2) && check_player_passwall(game, 'r', currentPlayer->x + 1, currentPlayer->y - 1))
                 {
                     currentPlayer->x += 1;
@@ -296,6 +306,8 @@ void select_player(Game* game)
                 mvprintw(0, 0, "%d %d %d", check_player_superposition(game, currentPlayer->x, currentPlayer->y - 1), !check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y - 2), check_player_passwall(game, 'r', currentPlayer->x + 1, currentPlayer->y - 1));
                 break;
             case '7':
+            case 'a':
+            case 'A':
                 if (check_player_superposition(game, currentPlayer->x, currentPlayer->y - 1) && !check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y - 2) && check_player_passwall(game, 'l', currentPlayer->x - 1, currentPlayer->y - 1))
                 {
                     currentPlayer->x -= 1;
@@ -308,6 +320,8 @@ void select_player(Game* game)
                 mvprintw(0, 0, "%d %d %d", check_player_superposition(game, currentPlayer->x, currentPlayer->y - 1), !check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y - 2), check_player_passwall(game, 'l', currentPlayer->x - 1, currentPlayer->y - 1));
                 break;
             case '3':
+            case 'c':
+            case 'C':
                 if (check_player_superposition(game, currentPlayer->x, currentPlayer->y + 1) && !check_player_passwall(game, 'd', currentPlayer->x, currentPlayer->y + 2) && check_player_passwall(game, 'r', currentPlayer->x + 1, currentPlayer->y + 1))
                 {
                     currentPlayer->x += 1;
@@ -320,6 +334,8 @@ void select_player(Game* game)
                 mvprintw(0, 0, "%d %d %d", check_player_superposition(game, currentPlayer->x, currentPlayer->y + 1), !check_player_passwall(game, 'd', currentPlayer->x, currentPlayer->y - 2), check_player_passwall(game, 'r', currentPlayer->x + 1, currentPlayer->y + 1));
                 break;
             case '1':
+            case 'w':
+            case 'W':
                 if (check_player_superposition(game, currentPlayer->x, currentPlayer->y + 1) && !check_player_passwall(game, 'd', currentPlayer->x, currentPlayer->y + 2) && check_player_passwall(game, 'l', currentPlayer->x - 1, currentPlayer->y + 1))
                 {
                     currentPlayer->x -= 1;

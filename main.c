@@ -1,5 +1,4 @@
 #include "quoridor.h"
-
 int main() {
     /*
     Fonction: main
