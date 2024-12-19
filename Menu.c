@@ -1,37 +1,52 @@
 #include "quoridor.h"
-//attron(COLOR_PAIR(color)); 
-//attroff(COLOR_PAIR(color));
-// 1, COLOR_BLUE
-// 2, COLOR_GREEN
-// 3, COLOR_YELLOW
-// 4, COLOR_MAGENTA
-void Nouvelle_Partie();
-void Chargez();
-void Options();
 
-void afficheMenu(){
-    attron(COLOR_PAIR(1));
-    mvprintw(0, 0, "=== Menu de Quoridor===\n"); //ici on change les option plus tard et on va mettre jouer ,charger un partie sauvegarde et quitter
-    mvprintw(1, 0, "1. Nouvelle partie\n");
-    mvprintw(2, 0, "2. Chargez une sauvegarde 1\n");
-    mvprintw(3, 0, "3. Option \n");
-    mvprintw(4, 0, "3. Quittez le jeux 1\n");
-    mvprintw(5, 0, "Choisissez une option: ");
-}    
-void Nouvelle_Partie() {
-    Game* game = createGame(2);
-    if (game == NULL) {
-        mvprintw(6, 0, "Erreur lors de la création du jeu.\n");
-        return;
+void showOptions(int option){
+    int x = (LINES - (BOARD_SIZE * 2 + 1)) / 2;
+    int y = (COLS - (BOARD_SIZE * MY_CELL_WIDTH)) / 2;
+    char* options[] = {
+        "Mode 2 Joueurs",
+        "Charger une partie",
+        "Quitter"
+    };
+    int n_choices = sizeof(options) / sizeof(char*);
+
+    for (int i = 0; i < n_choices; i++) {
+        if (i == option)
+            attron(A_REVERSE);
+        mvprintw(x++, y, options[i]);
+        attroff(A_REVERSE);
     }
 }
 
-void Chargez() {
-    mvprintw(6, 0, "Vous avez choisi de charger une sauvegarde.\n");
-    
-}
-
-void Options() {
-    mvprintw(6, 0,  "Vous avez choisi les options.\n");
-
+void chooseOptions(){
+    int choix = 0;
+    showOptions(0);
+    int ch = 0;
+    while (ch != '\n') {
+        ch = getch();
+        switch (ch) {
+            case KEY_UP:
+                if (choix > 0)
+                    choix--;
+                showOptions(choix);
+                break;
+            case KEY_DOWN:
+                if (choix < 2)
+                    choix++;
+                showOptions(choix);
+                break;
+            case '\n':
+                if (choix == 0) {
+                    Game* game = createGame(2);
+                    redraw(game);
+                    select_player(game);
+                } else if (choix == 1) {
+                    // do something
+                } else if (choix == 2) {
+                    endwin();
+                    exit(0);
+                }
+                break;
+        }
+    }
 }

@@ -21,6 +21,7 @@ int main() {
     // Game* game = createGame(2);
     // redraw(game);
     // select_player(game);
+    chooseOptions();
     
 
     endwin();

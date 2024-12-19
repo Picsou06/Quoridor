@@ -63,4 +63,6 @@ bool is_wall_at_placement(Game* game, int x, int y, int axes);
 // Function declarations for drawing
 void draw_board();
 void redraw(Game* game);
+void chooseOptions();
+
 #endif
