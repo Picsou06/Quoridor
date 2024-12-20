@@ -80,6 +80,15 @@ void select_wall(Game* game) {
 }
 
 bool can_place_wall(Game* game, Wall wall) {
+
+    /*
+    Fonction: can_place_wall
+    Auteur:Evan
+    Paramètres: Game game, Wall wall
+    Traitement : Vérifie si le mur peut être placé  
+    Retour: bool
+    */
+
     // Vérifiez si tous les joueurs peuvent atteindre leur coté opposé
     bool path_possible = true;
 
@@ -113,6 +122,13 @@ bool can_place_wall(Game* game, Wall wall) {
 }
 
 bool is_wall_at_placement(Game* game, int x, int y, int axes) {
+    /*
+    Fonction: can_place_wall
+    Auteur:Evan
+    Paramètres: Game game, Wall wall
+    Traitement : Vérifie si le mur peut être placé  
+    Retour: bool
+    */
     for (int i = 0; i < game->nbWalls; i++) {
         Wall wall = game->listOfWalls[i];
         if (axes == 0) {
@@ -141,6 +157,7 @@ bool is_wall_at_placement(Game* game, int x, int y, int axes) {
 }
 
 bool is_path_possible(Game* game, Player* player, int target_y) {
+
     int visited[BOARD_SIZE][BOARD_SIZE] = {0};
     Queue* q = createQueue();
     enqueue(q, (Point){player->x, player->y});
