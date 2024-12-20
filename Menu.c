@@ -1,6 +1,13 @@
 #include "quoridor.h"
 
 void showOptions(int option){
+    /*
+    Fonction: showOptions
+    Auteur:Evan et Wylan
+    Paramètres: void
+    Traitement : Affiche les options du menu
+    Retour: void
+    */
     char* options[] = {
         "Mode 2 Joueurs",
         "Charger une partie",
@@ -36,6 +43,13 @@ void showOptions(int option){
 }
 
 void chooseOptions(){
+    /*
+    Fonction: chooseOptions
+    Auteur:Evan
+    Paramètres: void
+    Traitement : Permet de choisir une option
+    Retour: void
+    */
     clear();
     int choix = 0;
     showOptions(0);

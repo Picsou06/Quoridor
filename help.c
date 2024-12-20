@@ -1,6 +1,13 @@
 #include "quoridor.h"
 
 void showPageOne()
+/*
+    Fonction: showPageOne
+    Auteur:Evan et Thomas
+    Paramètres: void
+    Traitement : Permet d'afficher les règles du jeu 
+    Retour: void
+    */
 {
     int x = 5;
     int y = 2;
@@ -38,6 +45,13 @@ void showPageOne()
     }
 }
 void shadowLetter(int x, int y, char letter, char *explanation){
+    /*
+    Fonction: shadowLetter
+    Auteur:Evan
+    Paramètres: int x, int y, char letter, char *explanation
+    Traitement : Permet d'afficher une lettre en surbrillance
+    Retour: void
+    */
     attron(A_REVERSE);
     mvprintw(y, x,"#####");
     mvprintw(y+1, x,"# %c #", letter);
@@ -49,6 +63,13 @@ void shadowLetter(int x, int y, char letter, char *explanation){
 
 void showPageTwo()
 {
+    /*
+    Fonction: showPageTwo
+    Auteur:Evan
+    Paramètres: void
+    Traitement : Permet d'afficher les commandes du jeu
+    Retour: void
+    */
     int x = COLS / 2 - 11;
     int y = LINES / 2 - 11;
     mvprintw(y, x,"#####");
@@ -105,6 +126,13 @@ void showPageTwo()
 }
 
 void showButton(int pages) {
+    /*
+    Fonction: showButton
+    Auteur:Evan et THomas
+    Paramètres: int pages
+    Traitement : 
+    Retour: void
+    */
         selectPage(pages);
         int ch = 0;
         while (ch != KEY_BACKSPACE) {
@@ -203,6 +231,13 @@ void showButton(int pages) {
 }
 
 void selectPage(int pages) {
+    /*
+    Fonction: selectPage
+    Auteur:Evan
+    Paramètres: int pages
+    Traitement : Permet de changer de page
+    Retour: void
+    */
     clear();
     if (pages == 0) {
             showPageOne();

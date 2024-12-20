@@ -43,6 +43,13 @@ void draw_wall(int x, int y, int axe, int color) {
 
 void draw_all_wall(Game* game)
 {
+    /*
+    Fonction: draw_all_wall
+    Auteur:Evan
+    Paramètres: Game* game
+    Traitement : Dessine tous les murs
+    Retour: void
+    */
     int i = 0;
 
     while(i < game->nbWalls)
@@ -54,6 +61,13 @@ void draw_all_wall(Game* game)
 
 Wall create_wall(int x, int y, int axes, Player player)
 {
+    /*
+    Fonction: create_wall
+    Auteur:Evan
+    Paramètres: int x, int y, int axes, Player player
+    Traitement : Crée un mur
+    Retour: wall
+    */
     Wall wall;
     wall.x = x;
     wall.y = y;
@@ -64,6 +78,13 @@ Wall create_wall(int x, int y, int axes, Player player)
 
 void add_wall(Game* game, Wall wall)
 {
+    /*
+    Fonction: add_wall
+    Auteur:Evan
+    Paramètres: Game* game, Wall wall
+    Traitement : Ajoute un mur
+    Retour: void
+    */
     game->listOfWalls[game->nbWalls] = wall;
     game->nbWalls++;
 }

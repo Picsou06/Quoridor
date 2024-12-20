@@ -2,10 +2,10 @@
 int main() {
     /*
     Fonction: main
-    Auteur: Evan
-    Paramètres: 
-    Traitement :
-    Retour: 
+    Auteur:Evan
+    Paramètres: void
+    Traitement : Permet de lancer le jeu
+    Retour: int
     */
     // Initialize ncurses
     initscr();

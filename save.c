@@ -1,6 +1,13 @@
 #include "quoridor.h"
 
 int get_player_index(Game* game, char icon) {
+    /*
+    Fonction: get_player_index
+    Auteur:Evan
+    Paramètres: Game* game, char icon
+    Traitement : Retourne l'index du joueur
+    Retour: int
+    */
     for (int i = 0; i < game->nbPlayers; i++) {
         if (game->listOfPlayers[i]->icon == icon) {
             return i;
@@ -10,6 +17,13 @@ int get_player_index(Game* game, char icon) {
 }
 
 void save_game(Game game) {
+    /*
+    Fonction: save_game
+    Auteur:Evan
+    Paramètres: Game game
+    Traitement : Sauvegarde la partie
+    Retour: void
+    */
     FILE *file = fopen("saved_game.txt", "w");
     if (file == NULL) {
         printf("Failed to open the file for writing.\n");
@@ -31,6 +45,13 @@ void save_game(Game game) {
 }
 
 void load_game(){
+    /*
+    Fonction: load_game
+    Auteur:Evan
+    Paramètres: void
+    Traitement : Charge la partie
+    Retour: void
+    */
     FILE *file = fopen("saved_game.txt", "r");
     if (file == NULL) {
         printf("Failed to open the file for reading.\n");

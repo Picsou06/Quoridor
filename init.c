@@ -1,6 +1,13 @@
 #include "quoridor.h"
 
 Game* createGame(int nbOfPlayer) {
+    /*
+    Fonction: createGame
+    Auteur:Evan
+    Paramètres: int nbOfPlayer
+    Traitement : Crée et initialise le jeu
+    Retour: void
+    */
     Game* game = (Game*)malloc(sizeof(Game));
     if (game == NULL) {
         fprintf(stderr, "Memory allocation for Game failed\n");
