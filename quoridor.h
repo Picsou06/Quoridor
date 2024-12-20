@@ -42,6 +42,8 @@ void checkvictory(Game *game);
 void chooseOptions();
 void save_game(Game game);
 void load_game();
+void showButton(int pages);
+void selectPage(int pages);
 
 // Function declarations for Player
 Player* createPlayer(char icon, int color, int x, int y);

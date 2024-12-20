@@ -80,7 +80,7 @@ void select_wall(Game* game) {
 }
 
 bool can_place_wall(Game* game, Wall wall) {
-    // Vérifiez si tous les joueurs peuvent atteindre leur côté opposé
+    // Vérifiez si tous les joueurs peuvent atteindre leur coté opposé
     bool path_possible = true;
 
     if (is_wall_at_placement(game, wall.x, wall.y, wall.axes))

@@ -18,6 +18,12 @@ int main() {
     init_pair(3, COLOR_YELLOW, COLOR_BLACK);
     init_pair(4, COLOR_MAGENTA, COLOR_BLACK);
 
+    if (COLS < BOARD_SIZE * MY_CELL_WIDTH || LINES < BOARD_SIZE * 3) {
+        endwin();
+        printf("The terminal is too small to display the game.\n");
+        return 1;
+    }
+
     chooseOptions();
 
     endwin();
