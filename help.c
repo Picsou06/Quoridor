@@ -33,9 +33,9 @@ void showPageOne()
         mvprintw(y+25, x, "Si les deux pions sont face a face sur des cases adjacentes et qu'il n'y a pas de mur derriere, un joueur peut sauter par-dessus l'autre pion.");
         mvprintw(y+26, x, "Si un mur bloque le saut direct, le joueur peut contourner l'autre pion en se deplacant sur une case diagonale libre.");
         mvprintw(y+28, x, "2. Placement du mur");
-        mvprintw(y+29, x, "Un joueur peut placer un mur pour gêner la traverser de l'adversaire.");
-        mvprintw(y+30, x, "Les murs doivent être poses entre deux cases, horizontalement ou verticalement.");
-        mvprintw(y+31, x, "Il est interdit de poser un mur qui rend le chemin de l'adversaire totalement bloque. Chaque joueur doit toujours avoir un chemin possible vers la rangee opposee (même s'il est plus long ou complexe).");
+        mvprintw(y+29, x, "Un joueur peut placer un mur pour gener la traverser de l'adversaire.");
+        mvprintw(y+30, x, "Les murs doivent etre poses entre deux cases, horizontalement ou verticalement.");
+        mvprintw(y+31, x, "Il est interdit de poser un mur qui rend le chemin de l'adversaire totalement bloque. Chaque joueur doit toujours avoir un chemin possible vers la rangee opposee (meme s'il est plus long ou complexe).");
         mvprintw(y+33, x, "FIN DE LA PARTIE");
         mvprintw(y+34, x, "Le premier joueur a atteindre n'importe quelle case de la derniere rangee opposee gagne la partie.");
         mvprintw(y+36, x, "ASTUCES ET STRATEGIE");
