@@ -84,7 +84,7 @@ void showPageTwo()
     mvprintw(y+1, x+14,"# 9 #");
     mvprintw(y+2, x+14,"#####");
 
-    y = y + 4; 
+    y = y + 4;
     mvprintw(y, x,"#####");
     mvprintw(y+1, x,"# 4 #");
     mvprintw(y+2, x,"#####");
@@ -197,7 +197,6 @@ void showButton(int pages) {
                     selectPage(pages);
                     if (pages==1)
                     {
-                        mvprintw(0, 0, "0");
                         attron(A_REVERSE);
                         mvprintw(LINES / 2 + 1, COLS / 2 - 11, "############");
                         mvprintw(LINES / 2 + 2, COLS / 2 - 11, "#     0    #");
