@@ -217,6 +217,7 @@ void select_player(Game* game)
     int diagonale = 0;
     while (ch != '\n') {
         ch = getch();
+        mvprintw(0, 0, "%d %d", game->playerPlaying->x, game->playerPlaying->y);
         if (diagonale==1)
         {
             currentPlayer->x = game->playerPlaying->x;
@@ -391,6 +392,7 @@ bool check_player_mouvement(Game *game, int x, int y)
     Traitement : Vérifie si le joueur peut se déplacer
     Retour: bool
     */
+    mvprintw(1, 1, "%d %d %d %d", x, y, game->playerPlaying->x, game->playerPlaying->y);
     if (x < 0 || x > 8 || y < 0 || y > 8)
         return false;
     if ((abs(x - game->playerPlaying->x) > 1 || abs(y - game->playerPlaying->y) > 1) || (abs(x - game->playerPlaying->x) == 1 && abs(y - game->playerPlaying->y) == 1))
@@ -431,7 +433,7 @@ bool check_player_superposition(Game *game, int x, int y)
         opponent = 0;
     if (game->listOfPlayers[opponent]->x != x || game->listOfPlayers[opponent]->y != y)
         return false;
-    if (x < 0 || x > 8 || y < 0 || y > 8)
+    if (x <= 0 || x >= 8 || y <= 0 || y >= 8)
         return false;
     return true;
 }
