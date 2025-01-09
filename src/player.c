@@ -39,7 +39,7 @@ void displayNbWall(Game* game) {
         }
         mvprintw(x, y, "%c Walls: %d", game->listOfPlayers[i]->icon, MAXWALL-number_of_wall);
         char number_of_wall_str[100];
-        itoa(MAXWALL-number_of_wall, number_of_wall_str, 10);
+        sprintf(number_of_wall_str, "%d", MAXWALL-number_of_wall);
         y+=BOARD_SIZE*MY_CELL_WIDTH-strlen("x Walls: ")-strlen(number_of_wall_str)+1;
     }
 }
