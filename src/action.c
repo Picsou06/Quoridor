@@ -251,7 +251,7 @@ void select_player(Game* game)
                     draw_all_wall(game);
                     displayTempPlayer(game, *currentPlayer);
                 }
-                else if (check_player_superposition(game, currentPlayer->x, currentPlayer->y - 1) && check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y - 2))
+                else if (currentPlayer->x == game->playerPlaying->x && currentPlayer->y == game->playerPlaying->y && check_player_superposition(game, currentPlayer->x, currentPlayer->y - 1) && check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y - 2))
                 {
                     currentPlayer->y -= 2;
                     draw_board();
@@ -270,7 +270,7 @@ void select_player(Game* game)
                     draw_all_wall(game);
                     displayTempPlayer(game, *currentPlayer);
                 }
-                else if (check_player_superposition(game, currentPlayer->x, currentPlayer->y + 1) && check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y + 2))
+                else if (currentPlayer->x == game->playerPlaying->x && currentPlayer->y == game->playerPlaying->y && check_player_superposition(game, currentPlayer->x, currentPlayer->y + 1) && check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y + 2))
                 {
                     currentPlayer->y += 2;
                     draw_board();
@@ -289,7 +289,7 @@ void select_player(Game* game)
                     draw_all_wall(game);
                     displayTempPlayer(game, *currentPlayer);
                 }
-                else if (check_player_superposition(game, currentPlayer->x - 1, currentPlayer->y) && check_player_passwall(game, 'u', currentPlayer->x - 2, currentPlayer->y))
+                else if (currentPlayer->x == game->playerPlaying->x && currentPlayer->y == game->playerPlaying->y && check_player_superposition(game, currentPlayer->x - 1, currentPlayer->y) && check_player_passwall(game, 'u', currentPlayer->x - 2, currentPlayer->y))
                 {
                     currentPlayer->x -= 2;
                     draw_board();
@@ -308,7 +308,7 @@ void select_player(Game* game)
                     draw_all_wall(game);
                     displayTempPlayer(game, *currentPlayer);
                 }
-                else if (check_player_superposition(game, currentPlayer->x + 1, currentPlayer->y) && check_player_passwall(game, 'u', currentPlayer->x + 2, currentPlayer->y))
+                else if (currentPlayer->x == game->playerPlaying->x && currentPlayer->y == game->playerPlaying->y && check_player_superposition(game, currentPlayer->x + 1, currentPlayer->y) && check_player_passwall(game, 'u', currentPlayer->x + 2, currentPlayer->y))
                 {
                     currentPlayer->x += 2;
                     draw_board();
@@ -319,7 +319,7 @@ void select_player(Game* game)
             case '9':
             case 'e':
             case 'E':
-                if (check_player_superposition(game, currentPlayer->x, currentPlayer->y - 1) && !check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y - 2) && check_player_passwall(game, 'r', currentPlayer->x + 1, currentPlayer->y - 1))
+                if (currentPlayer->x == game->playerPlaying->x && currentPlayer->y == game->playerPlaying->y && check_player_superposition(game, currentPlayer->x, currentPlayer->y - 1) && !check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y - 2) && check_player_passwall(game, 'r', currentPlayer->x + 1, currentPlayer->y - 1))
                 {
                     currentPlayer->x += 1;
                     currentPlayer->y -= 1;
@@ -333,7 +333,7 @@ void select_player(Game* game)
             case '7':
             case 'a':
             case 'A':
-                if (check_player_superposition(game, currentPlayer->x, currentPlayer->y - 1) && !check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y - 2) && check_player_passwall(game, 'l', currentPlayer->x - 1, currentPlayer->y - 1))
+                if (currentPlayer->x == game->playerPlaying->x && currentPlayer->y == game->playerPlaying->y && check_player_superposition(game, currentPlayer->x, currentPlayer->y - 1) && !check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y - 2) && check_player_passwall(game, 'l', currentPlayer->x - 1, currentPlayer->y - 1))
                 {
                     currentPlayer->x -= 1;
                     currentPlayer->y -= 1;
@@ -347,7 +347,7 @@ void select_player(Game* game)
             case '3':
             case 'c':
             case 'C':
-                if (check_player_superposition(game, currentPlayer->x, currentPlayer->y + 1) && !check_player_passwall(game, 'd', currentPlayer->x, currentPlayer->y + 2) && check_player_passwall(game, 'r', currentPlayer->x + 1, currentPlayer->y + 1))
+                if (currentPlayer->x == game->playerPlaying->x && currentPlayer->y == game->playerPlaying->y && check_player_superposition(game, currentPlayer->x, currentPlayer->y + 1) && !check_player_passwall(game, 'd', currentPlayer->x, currentPlayer->y + 2) && check_player_passwall(game, 'r', currentPlayer->x + 1, currentPlayer->y + 1))
                 {
                     currentPlayer->x += 1;
                     currentPlayer->y += 1;
@@ -361,7 +361,7 @@ void select_player(Game* game)
             case '1':
             case 'w':
             case 'W':
-                if (check_player_superposition(game, currentPlayer->x, currentPlayer->y + 1) && !check_player_passwall(game, 'd', currentPlayer->x, currentPlayer->y + 2) && check_player_passwall(game, 'l', currentPlayer->x - 1, currentPlayer->y + 1))
+                if (currentPlayer->x == game->playerPlaying->x && currentPlayer->y == game->playerPlaying->y && check_player_superposition(game, currentPlayer->x, currentPlayer->y + 1) && !check_player_passwall(game, 'd', currentPlayer->x, currentPlayer->y + 2) && check_player_passwall(game, 'l', currentPlayer->x - 1, currentPlayer->y + 1))
                 {
                     currentPlayer->x -= 1;
                     currentPlayer->y += 1;
