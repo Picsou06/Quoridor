@@ -14,11 +14,16 @@ if ! command -v tput &> /dev/null; then
     fi
 fi
 
+if [ -f ./bin/main ]; then
+    rm ./bin/main
+fi
+
 echo -e "\e[32mCompiling...\e[0m"
 gcc src/*.c -o bin/main -Llib -lncurses
 
 if [ ! -f ./bin/main ]; then
     echo -e "\e[31mCompilation error. The file ./bin/main does not exist.\e[0m"
+    read -p "Press any key to exit..."
     exit 1
 else
     echo -e "\e[32mCompilation complete.\e[0m"
