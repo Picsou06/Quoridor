@@ -1,5 +1,0 @@
-cc *.c -o bin/main.exe -lncursesw -lm
-
-Si marche pas:gcc *.c -o bin\main.exe -I mingw64\include -L mingw64\lib -lncursesw
- 
-.\bin\main.exe
