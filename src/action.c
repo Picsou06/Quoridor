@@ -23,7 +23,7 @@ void select_wall(Game* game) {
                 return;
             case '8':
             case KEY_UP:
-                if (currentWall.y > 0)
+                if (currentWall.y > 1)
                 {
                     redraw(game);
                     currentWall.y -= 1;
@@ -32,7 +32,7 @@ void select_wall(Game* game) {
                 break;
             case '2':
             case KEY_DOWN:
-                if (currentWall.y < 9) {
+                if (currentWall.y < 8) {
                     redraw(game);
                     currentWall.y += 1;
                     draw_wall(currentWall.x, currentWall.y, currentWall.axes, game->playerPlaying->color);
@@ -40,7 +40,7 @@ void select_wall(Game* game) {
                 break;
             case '4':
             case KEY_LEFT:
-                if (currentWall.x > 0) {
+                if (currentWall.x > 1) {
                     redraw(game);
                     currentWall.x -= 1;
                     draw_wall(currentWall.x, currentWall.y, currentWall.axes, game->playerPlaying->color);
@@ -48,7 +48,7 @@ void select_wall(Game* game) {
                 break;
             case '6':
             case KEY_RIGHT:
-                if (currentWall.x < 9) {
+                if (currentWall.x < 8) {
                     redraw(game);
                     currentWall.x += 1;
                     draw_wall(currentWall.x, currentWall.y, currentWall.axes, game->playerPlaying->color);
@@ -159,7 +159,7 @@ bool is_path_possible(Game* game, Player* player, int target_y) {
 
     /*
     Fonction: is_path_possible
-    Auteur:Evan
+    Auteur:Evan 
     Paramètres: Game game, Player player, int target_y
     Traitement : Vérifie si le joueur peut atteindre le coté opposé
     Retour: bool
