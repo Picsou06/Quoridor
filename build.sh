@@ -12,6 +12,7 @@ if ! command -v tput &> /dev/null; then
         echo -e "\e[31mUnsupported OS. Please install ncurses manually.\e[0m"
         exit 1
     fi
+fi
 echo -e "\e[32mCompiling...\e[0m"
 gcc src/*.c bin/main -Llib -lncurses
 echo -e "\e[32mCompilation complete.\e[0m"
