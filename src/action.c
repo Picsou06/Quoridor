@@ -217,7 +217,6 @@ void select_player(Game* game)
     int diagonale = 0;
     while (ch != '\n') {
         ch = getch();
-        mvprintw(0, 0, "%d %d", game->playerPlaying->x, game->playerPlaying->y);
         if (diagonale==1)
         {
             currentPlayer->x = game->playerPlaying->x;
@@ -244,14 +243,14 @@ void select_player(Game* game)
             case 'z':
             case 'Z':
             case KEY_UP:
-                if (check_double_mouv(game, currentPlayer->x, currentPlayer->y, currentPlayer->x, currentPlayer->y-1) && check_player_mouvement(game, currentPlayer->x, currentPlayer->y - 1) && check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y - 1))
+                if (check_double_mouv(game, currentPlayer->x, currentPlayer->y, currentPlayer->x, currentPlayer->y-1) && check_player_mouvement(game, currentPlayer->x, currentPlayer->y - 1) && check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y))
                 {
                     currentPlayer->y -= 1;
                     draw_board();
                     draw_all_wall(game);
                     displayTempPlayer(game, *currentPlayer);
                 }
-                else if (check_double_mouv(game, currentPlayer->x, currentPlayer->y, currentPlayer->x, currentPlayer->y-2) && check_player_superposition(game, currentPlayer->x, currentPlayer->y - 1) && check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y - 2))
+                else if (check_double_mouv(game, currentPlayer->x, currentPlayer->y, currentPlayer->x, currentPlayer->y-2) && check_player_superposition(game, currentPlayer->x, currentPlayer->y - 1) && check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y))
                 {
                     currentPlayer->y -= 2;
                     draw_board();
@@ -263,14 +262,14 @@ void select_player(Game* game)
             case 'x':
             case 'X':
             case KEY_DOWN:
-                if (check_double_mouv(game, currentPlayer->x, currentPlayer->y, currentPlayer->x, currentPlayer->y+1) && check_player_mouvement(game, currentPlayer->x, currentPlayer->y + 1) && check_player_passwall(game, 'd', currentPlayer->x, currentPlayer->y +1))
+                if (check_double_mouv(game, currentPlayer->x, currentPlayer->y, currentPlayer->x, currentPlayer->y+1) && check_player_mouvement(game, currentPlayer->x, currentPlayer->y + 1) && check_player_passwall(game, 'd', currentPlayer->x, currentPlayer->y))
                 {
                     currentPlayer->y += 1;
                     draw_board();
                     draw_all_wall(game);
                     displayTempPlayer(game, *currentPlayer);
                 }
-                else if (check_double_mouv(game, currentPlayer->x, currentPlayer->y, currentPlayer->x, currentPlayer->y+2) && check_player_superposition(game, currentPlayer->x, currentPlayer->y + 1) && check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y + 2))
+                else if (check_double_mouv(game, currentPlayer->x, currentPlayer->y, currentPlayer->x, currentPlayer->y+2) && check_player_superposition(game, currentPlayer->x, currentPlayer->y + 1) && check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y))
                 {
                     currentPlayer->y += 2;
                     draw_board();
@@ -282,14 +281,14 @@ void select_player(Game* game)
             case 'q':
             case 'Q':
             case KEY_LEFT:
-                if (check_double_mouv(game, currentPlayer->x, currentPlayer->y, currentPlayer->x-1, currentPlayer->y) && check_player_mouvement(game, currentPlayer->x - 1, currentPlayer->y) && check_player_passwall(game, 'l', currentPlayer->x - 1, currentPlayer->y))
+                if (check_double_mouv(game, currentPlayer->x, currentPlayer->y, currentPlayer->x-1, currentPlayer->y) && check_player_mouvement(game, currentPlayer->x - 1, currentPlayer->y) && check_player_passwall(game, 'l', currentPlayer->x, currentPlayer->y))
                 {
                     currentPlayer->x -= 1;
                     draw_board();
                     draw_all_wall(game);
                     displayTempPlayer(game, *currentPlayer);
                 }
-                else if (check_double_mouv(game, currentPlayer->x, currentPlayer->y, currentPlayer->x-2, currentPlayer->y) && check_player_superposition(game, currentPlayer->x - 1, currentPlayer->y) && check_player_passwall(game, 'u', currentPlayer->x - 2, currentPlayer->y))
+                else if (check_double_mouv(game, currentPlayer->x, currentPlayer->y, currentPlayer->x-2, currentPlayer->y) && check_player_superposition(game, currentPlayer->x - 1, currentPlayer->y) && check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y))
                 {
                     currentPlayer->x -= 2;
                     draw_board();
@@ -301,14 +300,14 @@ void select_player(Game* game)
             case 'd':
             case 'D':
             case KEY_RIGHT:
-                if (check_double_mouv(game, currentPlayer->x, currentPlayer->y, currentPlayer->x+1, currentPlayer->y) && check_player_mouvement(game, currentPlayer->x + 1, currentPlayer->y) && check_player_passwall(game, 'r', currentPlayer->x + 1, currentPlayer->y))
+                if (check_double_mouv(game, currentPlayer->x, currentPlayer->y, currentPlayer->x+1, currentPlayer->y) && check_player_mouvement(game, currentPlayer->x + 1, currentPlayer->y) && check_player_passwall(game, 'r', currentPlayer->x, currentPlayer->y))
                 {
                     currentPlayer->x += 1;
                     draw_board();
                     draw_all_wall(game);
                     displayTempPlayer(game, *currentPlayer);
                 }
-                else if (check_double_mouv(game, currentPlayer->x, currentPlayer->y, currentPlayer->x+2, currentPlayer->y) && check_player_superposition(game, currentPlayer->x + 1, currentPlayer->y) && check_player_passwall(game, 'u', currentPlayer->x + 2, currentPlayer->y))
+                else if (check_double_mouv(game, currentPlayer->x, currentPlayer->y, currentPlayer->x+2, currentPlayer->y) && check_player_superposition(game, currentPlayer->x + 1, currentPlayer->y) && check_player_passwall(game, 'r', currentPlayer->x, currentPlayer->y))
                 {
                     currentPlayer->x += 2;
                     draw_board();
@@ -328,7 +327,6 @@ void select_player(Game* game)
                     displayTempPlayer(game, *currentPlayer);
                     diagonale = 1;
                 }
-                mvprintw(0, 0, "%d %d %d", check_player_superposition(game, currentPlayer->x, currentPlayer->y - 1), !check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y - 2), check_player_passwall(game, 'r', currentPlayer->x + 1, currentPlayer->y - 1));
                 break;
             case '7':
             case 'a':
@@ -342,7 +340,6 @@ void select_player(Game* game)
                     displayTempPlayer(game, *currentPlayer);
                     diagonale = 1;
                 }
-                mvprintw(0, 0, "%d %d %d", check_player_superposition(game, currentPlayer->x, currentPlayer->y - 1), !check_player_passwall(game, 'u', currentPlayer->x, currentPlayer->y - 2), check_player_passwall(game, 'l', currentPlayer->x - 1, currentPlayer->y - 1));
                 break;
             case '3':
             case 'c':
@@ -356,7 +353,6 @@ void select_player(Game* game)
                     displayTempPlayer(game, *currentPlayer);
                     diagonale = 1;
                 }
-                mvprintw(0, 0, "%d %d %d", check_player_superposition(game, currentPlayer->x, currentPlayer->y + 1), !check_player_passwall(game, 'd', currentPlayer->x, currentPlayer->y - 2), check_player_passwall(game, 'r', currentPlayer->x + 1, currentPlayer->y + 1));
                 break;
             case '1':
             case 'w':
@@ -370,7 +366,6 @@ void select_player(Game* game)
                     displayTempPlayer(game, *currentPlayer);
                     diagonale = 1;
                 }
-                mvprintw(0, 0, "%d %d %d", check_player_superposition(game, currentPlayer->x, currentPlayer->y + 1), !check_player_passwall(game, 'd', currentPlayer->x, currentPlayer->y + 2), check_player_passwall(game, 'l', currentPlayer->x - 1, currentPlayer->y - 1));
                 break;
             case '\n':
                 game->playerPlaying->x = currentPlayer->x;
@@ -406,7 +401,6 @@ bool check_player_mouvement(Game *game, int x, int y)
     Traitement : Vérifie si le joueur peut se déplacer
     Retour: bool
     */
-    mvprintw(1, 1, "%d %d %d %d", x, y, game->playerPlaying->x, game->playerPlaying->y);
     if (x < 0 || x > 8 || y < 0 || y > 8)
         return false;
     if ((abs(x - game->playerPlaying->x) > 1 || abs(y - game->playerPlaying->y) > 1) || (abs(x - game->playerPlaying->x) == 1 && abs(y - game->playerPlaying->y) == 1))
@@ -465,28 +459,30 @@ bool check_player_passwall(Game *game, char mouvement, int x, int y)
 
     while (i < game->nbWalls)
     {
+        mvprintw(0, 0, "Wall: %d, %d", game->listOfWalls[i].x, game->listOfWalls[i].y);
+        mvprintw(1, 0, "Player: %d, %d", x, y);
         if (mouvement == 'r')
         {
             if (game->listOfWalls[i].axes == 1)
-                if ((game->listOfWalls[i].x == x && game->listOfWalls[i].y == y) || (game->listOfWalls[i].x == x && game->listOfWalls[i].y - 1 == y))
+                if ((game->listOfWalls[i].x == x + 1 && game->listOfWalls[i].y == y) || (game->listOfWalls[i].x == x + 1 && game->listOfWalls[i].y == y + 1))
                     return false;
         }
         else if (mouvement == 'l')
         {
             if (game->listOfWalls[i].axes == 1)
-                if ((game->listOfWalls[i].x - 1 == x && game->listOfWalls[i].y == y) || (game->listOfWalls[i].x - 1 == x && game->listOfWalls[i].y - 1 == y))
+                if ((game->listOfWalls[i].x == x && game->listOfWalls[i].y == y) || (game->listOfWalls[i].x == x && game->listOfWalls[i].y == y + 1))
                     return false;
         }
         else if (mouvement == 'd')
         {
             if (game->listOfWalls[i].axes == 0)
-                if ((game->listOfWalls[i].x - 1 == x && game->listOfWalls[i].y == y) || (game->listOfWalls[i].x == x && game->listOfWalls[i].y == y))
+                if ((game->listOfWalls[i].x == x && game->listOfWalls[i].y == y + 1) || (game->listOfWalls[i].x == x + 1 && game->listOfWalls[i].y == y + 1))
                     return false;
         }
         else if (mouvement == 'u')
         {
             if (game->listOfWalls[i].axes == 0) {
-                if ((game->listOfWalls[i].x - 1 == x && game->listOfWalls[i].y - 1 == y) || (game->listOfWalls[i].x == x && game->listOfWalls[i].y - 1 == y))
+                if ((game->listOfWalls[i].x == x && game->listOfWalls[i].y == y) || (game->listOfWalls[i].x == x  + 1 && game->listOfWalls[i].y == y))
                     return false;
             }
         }
