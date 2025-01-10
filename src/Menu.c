@@ -73,7 +73,7 @@ void chooseOptions(){
                     redraw(game);
                     select_player(game);
                 } else if (choix == 1) {
-                    load_game();
+                    menu_save();
                 } else if (choix == 2) {
                     showButton(0);
                     chooseOptions();

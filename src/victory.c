@@ -22,7 +22,7 @@ void checkvictory(Game *game)
         mvprintw(start_row + 5, start_col, "   YMMMb   \"\"\"\"YUMMMYMM   \"\"`mM\"         \"\"\"\"YUMMMMMMM   \"W\"     ,m\"       \"Mm,         \"M \"M\"        MMM      MMM     Y");
         refresh();
         sleep(5);
-        remove("saved_game.txt");
+        remove(game->name);
         clear();
         chooseOptions();
     }
@@ -37,7 +37,7 @@ void checkvictory(Game *game)
         mvprintw(start_row + 5, start_col, "   YMMMb   \"\"\"\"YUMMMYMM   \"\"`mM\"         \"\"\"\"YUMMMMMMM   \"W\"       mM\"                 \"M \"M\"        MMM      MMM     Y");
         refresh();
         sleep(5);
-        remove("saved_game.txt");
+        remove(game->name);
         clear();
         chooseOptions();
     }

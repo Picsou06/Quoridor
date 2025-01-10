@@ -5,6 +5,8 @@
 #include <stdbool.h>
 #include <unistd.h>
 #include <string.h>
+#include <ctype.h>
+#include <dirent.h>
 #include "queue.h"
 
 #define BOARD_SIZE 9
@@ -34,14 +36,16 @@ typedef struct {
    Wall *listOfWalls;
    int nbWalls;
    Player *playerPlaying;
+   char *name;
 } Game;
 
 // Function declarations for Game
 Game* createGame(int nbOfPlayer);
 void checkvictory(Game *game);
 void chooseOptions();
-void save_game(Game game);
+void save_game(Game game, char *filename);
 void load_game();
+void menu_save();
 void showButton(int pages);
 void selectPage(int pages);
 

@@ -1,4 +1,5 @@
 #include "quoridor.h"
+#include <stdio.h>
 
 int get_player_index(Game* game, char icon) {
     /*
@@ -16,7 +17,7 @@ int get_player_index(Game* game, char icon) {
     return -1;
 }
 
-void save_game(Game game) {
+void save_game(Game game, char *filename) {
     /*
     Fonction: save_game
     Auteur:Evan
@@ -24,7 +25,11 @@ void save_game(Game game) {
     Traitement : Sauvegarde la partie
     Retour: void
     */
-    FILE *file = fopen("saved_game.txt", "w");
+    char filepath[100];
+    strcpy(filepath, "./saved_game/");
+    strcat(filepath, filename);
+    strcat(filepath, ".txt");
+    FILE *file = fopen(filepath, "w");
     if (file == NULL) {
         printf("Failed to open the file for writing.\n");
         return;
@@ -44,7 +49,7 @@ void save_game(Game game) {
     fclose(file);
 }
 
-void load_game(){
+void load_game(char *filename) {
     /*
     Fonction: load_game
     Auteur:Evan
@@ -52,7 +57,7 @@ void load_game(){
     Traitement : Charge la partie
     Retour: void
     */
-    FILE *file = fopen("saved_game.txt", "r");
+    FILE *file = fopen(filename, "r");
     if (file == NULL) {
         printf("Failed to open the file for reading.\n");
         return;
@@ -85,3 +90,99 @@ void load_game(){
     redraw(game);
     select_player(game);
 }
+
+static char** get_files() {
+    clear();
+    DIR *dir;
+    char** files;
+    struct dirent *ent;
+    int count = 0;
+
+    dir = opendir("./saved_game");
+    if (dir != NULL) {
+        while ((ent = readdir(dir)) != NULL) {
+            if (strstr(ent->d_name, ".txt") != NULL) {
+                files = realloc(files, (count + 1) * sizeof(char*));
+                files[count] = malloc(strlen(ent->d_name) + 1);
+                strcpy(files[count], ent->d_name);
+                count++;
+            }
+        }
+        closedir(dir);
+        return files;
+    }
+}
+
+void menu_save() {
+    /*
+    Fonction: menu_save
+    Auteur:Evan
+    Paramètres: void
+    Traitement : Menu de sauvegarde
+    Retour: void
+    */
+    char** files = get_files();
+    int pages = 0;
+    int selected = 0;
+    int count = 0;
+    int max = 0;
+    int c;
+    while (1) {
+        clear();
+        mvprintw(0, 0, "Select a save to load:");
+        for (int i = 0; i < 5; i++) {
+            if (count < max) {
+                mvprintw(i + 1, 0, "%s", files[count]);
+                count++;
+            }
+        }
+        showButton(pages);
+        refresh();
+        c = getch();
+        switch (c) {
+            case KEY_UP:
+                if (selected > 0) {
+                    selected--;
+                }
+                if (selected < max - 5) {
+                    max--;
+                }
+                break;
+            case KEY_DOWN:
+                if (selected < count - 1) {
+                    selected++;
+                }
+                if (selected > max) {
+                    max++;
+                }
+                break;
+            case KEY_LEFT:
+                if (pages > 0) {
+                    pages--;
+                }
+                break;
+            case KEY_RIGHT:
+                if (pages < count / 5) {
+                    pages++;
+                }
+                break;
+            case 10:
+                load_game(files[selected]);
+                return;
+            case 27:
+                return;
+        }
+    }
+}
+
+
+//les murs nombre en couleurs
+//une partie fini ° crash
+// touche sur le côté
+//verifie qu'un joueur a fait son action
+//affiche le tour du joueur en mode
+//change le message de victoire
+//nom deja utiloise pour lesq sauvegardes 
+//si pas de partie cacher l'option 
+//crée des partie ou y'a plus que 1 ou 2 coups pour gagner
+
