@@ -40,11 +40,13 @@ typedef struct {
 } Game;
 
 // Function declarations for Game
-Game* createGame(int nbOfPlayer);
+Game* createGame(int nbOfPlayer, char *name);
 void checkvictory(Game *game);
-void chooseOptions();
+void chooseOptions(int nb_files, char **files);
+void showOptions(int option, int nb_files, char **files);
 void save_game(Game game, char *filename);
 void load_game();
+void get_files(char ***files, int *count);
 void menu_save();
 void showButton(int pages);
 void selectPage(int pages);

@@ -24,6 +24,8 @@ static void choose_name(Game *game)
                 break;
             }
         }
+        if (strlen(name) > 20)
+            valid = 0;
         if (valid)
         {
             game->name = strdup(name);
@@ -35,7 +37,7 @@ static void choose_name(Game *game)
             sleep(1);
             choose_name(game);
         }
-    } else{
+    } else {
             mvprintw(line + 1, 0, "Name contains invalid characters or is too long");
             refresh();
             sleep(1);
@@ -43,10 +45,10 @@ static void choose_name(Game *game)
         }
 }
 
-Game* createGame(int nbOfPlayer) {
+Game* createGame(int nbOfPlayer, char *name) {
     /*
     Fonction: createGame
-    Auteur:Evan
+    Auteur: Evan
     Paramètres: int nbOfPlayer
     Traitement : Crée et initialise le jeu
     Retour: void
@@ -57,7 +59,10 @@ Game* createGame(int nbOfPlayer) {
         exit(1);
     }
 
-    choose_name(game);
+    if (name != NULL)
+        game->name = strdup(name);
+    else
+        choose_name(game);
 
 
     // Alloue de la mémoire pour le tableau de structures Player

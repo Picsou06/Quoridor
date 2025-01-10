@@ -1,5 +1,4 @@
 #include "quoridor.h"
-
 void checkvictory(Game *game)
 {
     /*
@@ -9,36 +8,55 @@ void checkvictory(Game *game)
     Traitement : Vérifie si un joueur a gagné
     Retour: void
     */
-    int start_row = LINES / 2 - 5;
-    int start_col = COLS / 2 - strlen("::::::::::. :::      :::.  .-:.     ::-..,:::::: :::::::..       .-:.     ::-.    .::    .   .:::    :::    :::.    :::.") / 2;
-    if (game->listOfPlayers[0]->y == victoryPlayer1)
+    int start_row = LINES / 2 - 3;
+    int start_col = COLS / 2 - strlen("| |__) | | |         /  \\     \\ \\_/ /  | |__    | |__) |    \\ V /     \\ \\  /\\  / /    | |   |  \\| |\n") / 2;
+
+    if (game->listOfPlayers[1]->y == victoryPlayer2)
     {
         clear();
-        mvprintw(start_row, start_col, "::::::::::. :::      :::.  .-:.     ::-..,:::::: :::::::..         .,::      .:    .::    .   .:::    :::    :::.    :::.");
-        mvprintw(start_row + 1, start_col, " `;;;```.;;;;;;      ;;`;;  ';;.   ;;;;';;;;'''' ;;;;``;;;;        `;;;,  .,;;     ';;,  ;;  ;;;'     ;;;    `;;;;,  `;;;");
-        mvprintw(start_row + 2, start_col, "  `]]nnn]]' [[[     ,[[ '[[,  '[[,[[['   [[cccc   [[[,/[[['          '[[,,[['       '[[, [[, [['      [[[      [[[[[. '[[");
-        mvprintw(start_row + 3, start_col, "   $$$\"\"    $$'    c$$$cc$$$c   c$$\"     $$\"\"\"\"   $$$$$$c             Y$$$P           Y$c$$$c$P       $$$      $$$ \"Y$c$$");
-        mvprintw(start_row + 4, start_col, "   888o    o88oo,.__888   888,,8P\"`      888oo,__ 888b \"88bo,       oP\"``\"Yo,          \"88\"888        888      888    Y88");
-        mvprintw(start_row + 5, start_col, "   YMMMb   \"\"\"\"YUMMMYMM   \"\"`mM\"         \"\"\"\"YUMMMMMMM   \"W\"     ,m\"       \"Mm,         \"M \"M\"        MMM      MMM     Y");
+        char *victory1 = "   _____    _                  __     __  ______   _____       ___     __          __  _____   _   _\n";
+        char *victory2 = "  |  __ \\  | |          /\\     \\ \\   / / |  ____| |  __ \\     / _ \\    \\ \\        / / |_   _| | \\ | |\n";
+        char *victory3 = "  | |__) | | |         /  \\     \\ \\_/ /  | |__    | |__) |   | | | |    \\ \\  /\\  / /    | |   |  \\| |\n";
+        char *victory4 = "  |  ___/  | |        / /\\ \\     \\   /   |  __|   |  _  /    | | | |     \\ \\/  \\/ /     | |   | . ` |\n";
+        char *victory5 = "  | |      | |____   / ____ \\     | |    | |____  | | \\ \\    | |_| |      \\  /\\  /     _| |_  | |\\  |\n";
+        char *victory6 = "  |_|      |______| /_/    \\_\\    |_|    |______| |_|  \\_\\    \\___/        \\/  \\/     |_____| |_| \\_|\n";
+        mvprintw(start_row, start_col, "%s", victory1);
+        mvprintw(start_row + 1, start_col, "%s", victory2);
+        mvprintw(start_row + 2, start_col, "%s", victory3);
+        mvprintw(start_row + 3, start_col, "%s", victory4);
+        mvprintw(start_row + 4, start_col, "%s", victory5);
+        mvprintw(start_row + 5, start_col, "%s", victory6);
         refresh();
         sleep(5);
         remove(game->name);
         clear();
-        chooseOptions();
+        int nb_files = 0;
+        char **files = NULL;
+        get_files(&files, &nb_files);
+        chooseOptions(nb_files, files);
     }
-    else if (game->listOfPlayers[1]->y == victoryPlayer2)
+    else if (game->listOfPlayers[0]->y == victoryPlayer1)
     {
         clear();
-        mvprintw(start_row, start_col, "::::::::::. :::      :::.  .-:.     ::-..,:::::: :::::::..       .-:.     ::-.    .::    .   .:::    :::    :::.    :::.");
-        mvprintw(start_row + 1, start_col, " `;;;```.;;;;;;      ;;`;;  ';;.   ;;;;';;;;'''' ;;;;``;;;;       ';;.   ;;;;'    ';;,  ;;  ;;;'     ;;;    `;;;;,  `;;;");
-        mvprintw(start_row + 2, start_col, "  `]]nnn]]' [[[     ,[[ '[[,  '[[,[[['   [[cccc   [[[,/[[['         '[[,[[['       '[[, [[, [['      [[[      [[[[[. '[[");
-        mvprintw(start_row + 3, start_col, "   $$$\"\"    $$'    c$$$cc$$$c   c$$\"     $$\"\"\"\"   $$$$$$c             c$$\"           Y$c$$$c$P       $$$      $$$ \"Y$c$$");
-        mvprintw(start_row + 4, start_col, "   888o    o88oo,.__888   888,,8P\"`      888oo,__ 888b \"88bo,       ,8P\"`             \"88\"888        888      888    Y88");
-        mvprintw(start_row + 5, start_col, "   YMMMb   \"\"\"\"YUMMMYMM   \"\"`mM\"         \"\"\"\"YUMMMMMMM   \"W\"       mM\"                 \"M \"M\"        MMM      MMM     Y");
+        char *victory1 = "  _____    _                  __     __  ______   _____     __   __   __          __  _____   _   _\n";
+        char *victory2 = " |  __ \\  | |          /\\     \\ \\   / / |  ____| |  __ \\    \\ \\ / /   \\ \\        / / |_   _| | \\ | |\n";
+        char *victory3 = " | |__) | | |         /  \\     \\ \\_/ /  | |__    | |__) |    \\ V /     \\ \\  /\\  / /    | |   |  \\| |  \n";
+        char *victory4 = " |  ___/  | |        / /\\ \\     \\   /   |  __|   |  _  /      > <       \\ \\/  \\/ /     | |   | . ` |    \n";
+        char *victory5 = " | |      | |____   / ____ \\     | |    | |____  | | \\ \\     / . \\       \\  /\\  /     _| |_  | |\\  |   \n";
+        char *victory6 = " |_|      |______| /_/    \\_\\    |_|    |______| |_|  \\_\\   /_/ \\_\\       \\/  \\/     |_____| |_| \\_| \n";
+        mvprintw(start_row, start_col, "%s", victory1);
+        mvprintw(start_row + 1, start_col, "%s", victory2);
+        mvprintw(start_row + 2, start_col, "%s", victory3);
+        mvprintw(start_row + 3, start_col, "%s", victory4);
+        mvprintw(start_row + 4, start_col, "%s", victory5);
+        mvprintw(start_row + 5, start_col, "%s", victory6);
         refresh();
         sleep(5);
         remove(game->name);
         clear();
-        chooseOptions();
+        int nb_files = 0;
+        char **files = NULL;
+        get_files(&files, &nb_files);
+        chooseOptions(nb_files, files);
     }
 }

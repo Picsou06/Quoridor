@@ -34,6 +34,7 @@ void save_game(Game game, char *filename) {
         printf("Failed to open the file for writing.\n");
         return;
     }
+    fprintf(file, "%d\n", game.name);
     fprintf(file, "%d\n", game.nbPlayers);
     for (int i = 0; i < game.nbPlayers; i++) {
         fprintf(file, "%c %d %d %d\n", game.listOfPlayers[i]->icon, game.listOfPlayers[i]->color, game.listOfPlayers[i]->x, game.listOfPlayers[i]->y);
@@ -57,15 +58,20 @@ void load_game(char *filename) {
     Traitement : Charge la partie
     Retour: void
     */
-    FILE *file = fopen(filename, "r");
+    char filepath[100];
+    strcpy(filepath, "./saved_game/");
+    strcat(filepath, filename);
+    FILE *file = fopen(filepath, "r");
     if (file == NULL) {
         printf("Failed to open the file for reading.\n");
         return;
     }
+    char *name;
+    fscanf(file, "%d", &name);
     int nbPlayers;
     fscanf(file, "%d", &nbPlayers);
 
-    Game* game = createGame(nbPlayers);
+    Game* game = createGame(nbPlayers, name);
     char icon; // Declare icon here
     for (int i = 0; i < nbPlayers; i++) {
         int color, x, y;
@@ -91,93 +97,78 @@ void load_game(char *filename) {
     select_player(game);
 }
 
-static char** get_files() {
-    clear();
+void get_files(char ***files, int *count) {
     DIR *dir;
-    char** files;
+    *count = 0;
     struct dirent *ent;
-    int count = 0;
 
     dir = opendir("./saved_game");
     if (dir != NULL) {
         while ((ent = readdir(dir)) != NULL) {
             if (strstr(ent->d_name, ".txt") != NULL) {
-                files = realloc(files, (count + 1) * sizeof(char*));
-                files[count] = malloc(strlen(ent->d_name) + 1);
-                strcpy(files[count], ent->d_name);
-                count++;
+                *files = realloc(*files, (*count + 1) * sizeof(char*));
+                (*files)[*count] = malloc(strlen(ent->d_name) + 1);
+                strcpy((char *)(*files)[*count], ent->d_name);
+                (*count)++;
             }
         }
         closedir(dir);
-        return files;
+        return;
     }
+    *files = NULL;
+}
+ 
+void show_options(int pages, int selected, int numFiles) {
+    clear();
+    char** files = NULL;
+    get_files(&files, &numFiles);
+    mvprintw(0, 0, "Select a save to load:");
+    for (int i = pages * 8; i < numFiles; i++) {
+        if (i == selected)
+            attron(A_REVERSE);
+        mvprintw(i + 1, 0, files[i]);
+        if (i == selected)
+            attroff(A_REVERSE);
+    }
+    refresh();
 }
 
 void menu_save() {
-    /*
-    Fonction: menu_save
-    Auteur:Evan
-    Paramètres: void
-    Traitement : Menu de sauvegarde
-    Retour: void
-    */
-    char** files = get_files();
-    int pages = 0;
     int selected = 0;
-    int count = 0;
-    int max = 0;
-    int c;
+    int pages = 0;
+    char** files = NULL;
+    int nb_files = 0;
+    get_files(&files, &nb_files);
+    int ch;
+    printf("nb_files: %d\n", nb_files);
     while (1) {
-        clear();
-        mvprintw(0, 0, "Select a save to load:");
-        for (int i = 0; i < 5; i++) {
-            if (count < max) {
-                mvprintw(i + 1, 0, "%s", files[count]);
-                count++;
-            }
-        }
-        showButton(pages);
+        show_options(pages, selected, nb_files);
+        printf("Options Showed");
         refresh();
-        c = getch();
-        switch (c) {
-            case KEY_UP:
-                if (selected > 0) {
-                    selected--;
-                }
-                if (selected < max - 5) {
-                    max--;
-                }
-                break;
+        ch = getch();
+        switch (ch) {
             case KEY_DOWN:
-                if (selected < count - 1) {
+                if (selected < nb_files - 1)
                     selected++;
-                }
-                if (selected > max) {
-                    max++;
-                }
-                break;
-            case KEY_LEFT:
-                if (pages > 0) {
-                    pages--;
-                }
-                break;
-            case KEY_RIGHT:
-                if (pages < count / 5) {
+                if (selected > pages * 8 + 7)
                     pages++;
-                }
+                refresh();
                 break;
-            case 10:
+            case KEY_UP:
+                if (selected > 0)
+                    selected--;
+                if (selected < pages * 8)
+                    pages--;
+                refresh();
+                break;
+            case '\n':
                 load_game(files[selected]);
-                return;
-            case 27:
                 return;
         }
     }
+    refresh();
 }
 
-
-//les murs nombre en couleurs
-//une partie fini ° crash
 // touche sur le côté
 //verifie qu'un joueur a fait son action
 //affiche le tour du joueur en mode
@@ -185,4 +176,5 @@ void menu_save() {
 //nom deja utiloise pour lesq sauvegardes 
 //si pas de partie cacher l'option 
 //crée des partie ou y'a plus que 1 ou 2 coups pour gagner
+//indique e nombre de caractere max pour un nom de partie et contraite aec les signes
 

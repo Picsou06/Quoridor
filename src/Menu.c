@@ -1,6 +1,6 @@
 #include "quoridor.h"
 
-void showOptions(int option){
+void showOptions(int option, int nb_files, char **files) {
     /*
     Fonction: showOptions
     Auteur:Evan et Wylan
@@ -14,16 +14,18 @@ void showOptions(int option){
         "Aide",
         "Quitter"
     };
+    if (nb_files == 0)
+        options[1] = "Charger une partie (Aucune sauvegarde)";
     int x = LINES / 2 - (sizeof(options)/sizeof(char*)) / 2;
     int y = COLS / 2 - sizeof(options)/2;
-    int title_cols = COLS / 2 - strlen(" .d88b.  db    db  .d88b.  d8888b. d8888b. d888888b d8888b.  .d88b.  d8888b. ") / 2;
+    int title_cols = COLS / 2 - strlen(" .d88b.  db    db  .d88b.  d8888b. d888888b d8888b.  .d88b.  d8888b. ") / 2;
     int title_row = x - 11;
-    mvprintw(title_row++,title_cols," .d88b.  db    db  .d88b.  d8888b. d8888b. d888888b d8888b.  .d88b.  d8888b. ");
-    mvprintw(title_row++,title_cols,".8P  Y8. 88    88 .8P  Y8. 88  `8D 88  `8D   `88'   88  `8D .8P  Y8. 88  `8D ");
-    mvprintw(title_row++,title_cols,"88    88 88    88 88    88 88oobY' 88oobY'    88    88   88 88    88 88oobY' ");
-    mvprintw(title_row++,title_cols,"88    88 88    88 88    88 88`8b   88`8b      88    88   88 88    88 88`8b   ");
-    mvprintw(title_row++,title_cols,"`8P  d8' 88b  d88 `8b  d8' 88 `88. 88 `88.   .88.   88  .8D `8b  d8' 88 `88. ");
-    mvprintw(title_row++,title_cols," `Y88'Y8 ~Y8888P'  `Y88P'  88   YD 88   YD Y888888P Y8888D'  `Y88P'  88   YD ");
+    mvprintw(title_row++,title_cols," .d88b.  db    db  .d88b.  d8888b. d888888b d8888b.  .d88b.  d8888b. ");
+    mvprintw(title_row++,title_cols,".8P  Y8. 88    88 .8P  Y8. 88  `8D   `88'   88  `8D .8P  Y8. 88  `8D ");
+    mvprintw(title_row++,title_cols,"88    88 88    88 88    88 88oobY'    88    88   88 88    88 88oobY' ");
+    mvprintw(title_row++,title_cols,"88    88 88    88 88    88 88`8b      88    88   88 88    88 88`8b   ");
+    mvprintw(title_row++,title_cols,"`8P  d8' 88b  d88 `8b  d8' 88 `88.   .88.   88  .8D `8b  d8' 88 `88. ");
+    mvprintw(title_row++,title_cols," `Y88'Y8 ~Y8888P'  `Y88P'  88   YD Y888888P Y8888D'  `Y88P'  88   YD ");
     int n_choices = sizeof(options) / sizeof(char*);
 
     mvprintw(x - 3, y - 3, "###################################");
@@ -42,7 +44,7 @@ void showOptions(int option){
     }
 }
 
-void chooseOptions(){
+void chooseOptions(int nb_files, char **files) {
     /*
     Fonction: chooseOptions
     Auteur:Evan
@@ -50,9 +52,11 @@ void chooseOptions(){
     Traitement : Permet de choisir une option
     Retour: void
     */
+    int choix;
     clear();
-    int choix = 0;
-    showOptions(0);
+    error:
+    choix = 0;
+    showOptions(0, nb_files, files);
     int ch = 0;
     while (ch != '\n') {
         ch = getch();
@@ -60,23 +64,26 @@ void chooseOptions(){
             case KEY_UP:
                 if (choix > 0)
                     choix--;
-                showOptions(choix);
+                showOptions(choix, nb_files, files);
                 break;
             case KEY_DOWN:
                 if (choix < 3)
                     choix++;
-                showOptions(choix);
+                showOptions(choix, nb_files, files);
                 break;
             case '\n':
                 if (choix == 0) {
-                    Game* game = createGame(2);
+                    Game* game = createGame(2, NULL);
                     redraw(game);
                     select_player(game);
-                } else if (choix == 1) {
-                    menu_save();
+                } else if (choix == 1 ) {
+                    if (nb_files > 0)
+                        menu_save();
+                    else
+                        goto error;
                 } else if (choix == 2) {
                     showButton(0);
-                    chooseOptions();
+                    chooseOptions(nb_files, files);
                 } else if (choix == 3) {
                     endwin();
                     exit(0);

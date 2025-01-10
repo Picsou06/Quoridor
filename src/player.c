@@ -37,7 +37,9 @@ void displayNbWall(Game* game) {
             if (game->listOfWalls[j].player.icon == game->listOfPlayers[i]->icon)
                 number_of_wall++;
         }
+        attron(COLOR_PAIR(game->listOfPlayers[i]->color));
         mvprintw(x, y, "%c Walls: %d", game->listOfPlayers[i]->icon, MAXWALL-number_of_wall);
+        attroff(COLOR_PAIR(game->listOfPlayers[i]->color));
         char number_of_wall_str[100];
         sprintf(number_of_wall_str, "%d", MAXWALL-number_of_wall);
         y+=BOARD_SIZE*MY_CELL_WIDTH-strlen("x Walls: ")-strlen(number_of_wall_str)+1;
