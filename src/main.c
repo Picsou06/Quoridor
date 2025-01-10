@@ -20,6 +20,9 @@ int main() {
 
     int nb_files = 0;
     char **files = NULL;
+    if (access("./saved_game", F_OK) == -1) {
+        mkdir("./saved_game");
+    }
     get_files(&files, &nb_files);
     if (COLS < BOARD_SIZE * MY_CELL_WIDTH || LINES < BOARD_SIZE * 3) {
         endwin();
