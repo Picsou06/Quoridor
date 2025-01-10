@@ -26,7 +26,6 @@ int main() {
         printf("The terminal is too small to display the game.\n");
         return 1;
     }
-
     chooseOptions(nb_files, files);
 
     endwin();
