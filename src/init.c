@@ -5,6 +5,10 @@ static void choose_name(Game *game)
     char *name = NULL;
     free(game->name);
     game->name = NULL;
+    char **files = NULL;
+    int found = 0;
+    int count = 0;
+    get_files(&files, &count);
     int line = LINES / 2 - 2;
     int cols = COLS / 2 - strlen("#######################################################") / 2;
     clear();
@@ -16,7 +20,9 @@ static void choose_name(Game *game)
     mvprintw(line, cols,           "Name of the save: ");
     echo();
     refresh();
-    scanw("%ms", &name);
+    scanw("%m[^\n]", &name);
+    printf("%s\n", name);
+    printf("%s\n", files[0]);
     noecho();
     if (name != NULL)
     {
@@ -31,13 +37,22 @@ static void choose_name(Game *game)
         }
         if (strlen(name) > 20)
             valid = 0;
+        for (int i = 0; i < count; i++) {
+            if (strcmp(name, files[i]) == 0) {
+                found = 1;
+                break;
+            }
+        }
         if (valid)
         {
             game->name = strdup(name);
             free(name);
             return;
         } else{
-            mvprintw(line + 1, cols, "Name contains invalid characters or is too long");
+            if (found)
+                mvprintw(line + 1, cols, "Name already exists");
+            else
+                mvprintw(line + 1, cols, "Name contains invalid characters or is too long");
             refresh();
             sleep(1);
             choose_name(game);
