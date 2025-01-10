@@ -44,7 +44,7 @@ Game* createGame(int nbOfPlayer, char *name);
 void checkvictory(Game *game);
 void chooseOptions(int nb_files, char **files);
 void showOptions(int option, int nb_files, char **files);
-void save_game(Game game, char *filename);
+void save_game(Game game);
 void load_game();
 void get_files(char ***files, int *count);
 void menu_save();

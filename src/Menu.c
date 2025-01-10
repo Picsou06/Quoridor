@@ -59,11 +59,13 @@ void chooseOptions(int nb_files, char **files) {
     while (ch != '\n') {
         ch = getch();
         switch (ch) {
+            case '8':
             case KEY_UP:
                 if (choix > 0)
                     choix--;
                 showOptions(choix, nb_files, files);
                 break;
+            case '2':
             case KEY_DOWN:
                 if (choix < 3)
                     choix++;

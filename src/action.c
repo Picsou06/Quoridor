@@ -509,6 +509,6 @@ void switch_player(Game* game){
     if(emplacement >= game->nbPlayers)
         emplacement = 0;
     game->playerPlaying = game->listOfPlayers[emplacement];
-    save_game(*game, game->name);
+    save_game(*game);
     checkvictory(game);
 }

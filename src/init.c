@@ -5,10 +5,15 @@ static void choose_name(Game *game)
     char *name = NULL;
     free(game->name);
     game->name = NULL;
-    int line = LINES / 2 - 1;
-    int cols = COLS / 2 - sizeof("Name of the save: ") / 2;
+    int line = LINES / 2 - 2;
+    int cols = COLS / 2 - strlen("#######################################################") / 2;
     clear();
-    mvprintw(line, 0, "Name of the save: ");
+    mvprintw(line - 2, cols - 2, "#######################################################");
+    mvprintw(line - 1, cols - 2, "#           Maximum: 20, Alphanumerical only          #");
+    mvprintw(line, cols - 2,     "#                                                     #");
+    mvprintw(line + 1, cols - 2, "#                                                     #");
+    mvprintw(line + 2, cols - 2, "#######################################################");
+    mvprintw(line, cols,           "Name of the save: ");
     echo();
     refresh();
     scanw("%ms", &name);
@@ -32,13 +37,13 @@ static void choose_name(Game *game)
             free(name);
             return;
         } else{
-            mvprintw(line + 1, 0, "Name contains invalid characters or is too long");
+            mvprintw(line + 1, cols, "Name contains invalid characters or is too long");
             refresh();
             sleep(1);
             choose_name(game);
         }
     } else {
-            mvprintw(line + 1, 0, "Name contains invalid characters or is too long");
+            mvprintw(line + 1, cols, "Name contains invalid characters or is too long");
             refresh();
             sleep(1);
             choose_name(game);
