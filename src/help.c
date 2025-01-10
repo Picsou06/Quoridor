@@ -31,6 +31,9 @@ void showPageOne(int part) {
         {
             y = -20;
             clear();
+            mvprintw(LINES - 4, COLS - 16,"######");
+            mvprintw(LINES - 3, COLS - 16,"# /\\ #");
+            mvprintw(LINES - 2, COLS - 16,"######");
         }
         mvprintw(y+22, x, "1. Deplacement du pion");
         mvprintw(y+23, x, "Un pion peut se deplacer d'une case a la fois dans une des quatre directions :");
@@ -51,12 +54,14 @@ void showPageOne(int part) {
         mvprintw(y+41, x, "Soyez attentif aux possibilites de saut pour avancer plus vite.");
         mvprintw(y+42, x, "Ne gaspillez pas vos murs : leur nombre est limite !");
     }
+    else {
+        mvprintw(LINES - 4, COLS - 16,"######");
+        mvprintw(LINES - 3, COLS - 16,"# \\/ #");
+        mvprintw(LINES - 2, COLS - 16,"######");
+    }
     attron(A_REVERSE);
         mvprintw(LINES - 1, x, "Pour revenir au menu principal press Escape");
     attroff(A_REVERSE);
-    mvprintw(LINES - 4, COLS - 16,"######");
-    mvprintw(LINES - 3, COLS - 16,"# \\/ #");
-    mvprintw(LINES - 2, COLS - 16,"######");
     mvprintw(LINES - 4, COLS - 8,"######");
     mvprintw(LINES - 3, COLS - 8,"# -> #");
     mvprintw(LINES - 2, COLS - 8,"######");

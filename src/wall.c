@@ -14,28 +14,21 @@ void draw_wall(int x, int y, int axe, int color) {
     int row = (y*2) + start_row;
     attron(COLOR_PAIR(color));
     if (axe == 0) {
-        if (x > 0) {
-            mvprintw(row, col - 4, "#");
-            mvprintw(row, col - 3, "#");
-            mvprintw(row, col - 2, "#");
-            mvprintw(row, col - 1, "#");
-        }
-        if (x < BOARD_SIZE) {
-            mvprintw(row, col + 1, "#");
-            mvprintw(row, col + 2, "#");
-            mvprintw(row, col + 3, "#");
-            mvprintw(row, col + 4, "#");
-        }
+        mvprintw(row, col - 4, "#");
+        mvprintw(row, col - 3, "#");
+        mvprintw(row, col - 2, "#");
+        mvprintw(row, col - 1, "#");
+        mvprintw(row, col + 1, "#");
+        mvprintw(row, col + 2, "#");
+        mvprintw(row, col + 3, "#");
+        mvprintw(row, col + 4, "#");
         mvprintw(row, col, "#");
-    } else {
-        if (y > 0) {
-            mvprintw(row - 2, col, "#");
-            mvprintw(row - 1, col, "#");
-        }
-        if (y < BOARD_SIZE) {
-            mvprintw(row + 1, col, "#");
-            mvprintw(row + 2, col, "#");
-        }
+    }
+    else {
+        mvprintw(row - 2, col, "#");
+        mvprintw(row - 1, col, "#");
+        mvprintw(row + 1, col, "#");
+        mvprintw(row + 2, col, "#");
         mvprintw(row, col, "#");
     }
     attroff(COLOR_PAIR(color));
