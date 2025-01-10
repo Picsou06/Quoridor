@@ -28,7 +28,7 @@ void checkvictory(Game *game)
         mvprintw(start_row + 5, start_col, "%s", victory6);
         refresh();
         char filename[100];
-        sprintf(filename, "./saved_game/%s.txt", "t");
+        sprintf(filename, "./saved_game/%s.txt", game->name);
         remove(filename);
         clear();
         sleep(5);
@@ -54,7 +54,7 @@ void checkvictory(Game *game)
         mvprintw(start_row + 5, start_col, "%s", victory6);
         refresh();
         char filename[100];
-        sprintf(filename, "./saved_game/%s.txt", "t");
+        sprintf(filename, "./saved_game/%s.txt", game->name);
         remove(filename);
         free(game->name);
         sleep(5);

@@ -21,8 +21,6 @@ static void choose_name(Game *game)
     echo();
     refresh();
     scanw("%m[^\n]", &name);
-    printf("%s\n", name);
-    printf("%s\n", files[0]);
     noecho();
     if (name != NULL)
     {
@@ -38,7 +36,7 @@ static void choose_name(Game *game)
         if (strlen(name) > 20)
             valid = 0;
         for (int i = 0; i < count; i++) {
-            if (strcmp(name, files[i]) == 0) {
+            if (files != NULL && strcmp(name, files[i]) == 0) {
                 found = 1;
                 break;
             }
@@ -110,7 +108,6 @@ Game* createGame(int nbOfPlayer, char *name) {
     }
     game->nbWalls = 0;
 
-    // Initialise le joueur qui joue
     game->playerPlaying = game->listOfPlayers[0];
 
     return game;

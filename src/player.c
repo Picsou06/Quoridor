@@ -29,6 +29,7 @@ void displayNbWall(Game* game) {
     int x = (LINES - (BOARD_SIZE * 2 + 1)) / 2 - 1;
     int y = (COLS - (BOARD_SIZE * MY_CELL_WIDTH)) / 2;
     int number_of_wall;
+    char number_of_wall_str[100]; // Move the declaration here
     for (int i = 0; i < game->nbPlayers; i++)
     {
         number_of_wall = 0;
@@ -37,12 +38,17 @@ void displayNbWall(Game* game) {
             if (game->listOfWalls[j].player.icon == game->listOfPlayers[i]->icon)
                 number_of_wall++;
         }
-        attron(COLOR_PAIR(game->listOfPlayers[i]->color));
+        
+        if (game->listOfPlayers[i]->icon == game->playerPlaying->icon)
+        {
+            attron(COLOR_PAIR(game->listOfPlayers[i]->color));
+            attron(A_BOLD);
+        }
         mvprintw(x, y, "%c Walls: %d", game->listOfPlayers[i]->icon, MAXWALL-number_of_wall);
         attroff(COLOR_PAIR(game->listOfPlayers[i]->color));
-        char number_of_wall_str[100];
+        attroff(A_BOLD);
         sprintf(number_of_wall_str, "%d", MAXWALL-number_of_wall);
-        y+=BOARD_SIZE*MY_CELL_WIDTH-strlen("x Walls: ")-strlen(number_of_wall_str)+1;
+        y+=BOARD_SIZE*MY_CELL_WIDTH-strlen("X Walls: ")-strlen(number_of_wall_str)+1;
     }
 }
 
