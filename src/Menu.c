@@ -14,8 +14,6 @@ void showOptions(int option, int nb_files, char **files) {
         "Aide",
         "Quitter"
     };
-    if (nb_files == 0)
-        options[1] = "Charger une partie (Aucune sauvegarde)";
     int x = LINES / 2 - (sizeof(options)/sizeof(char*)) / 2;
     int y = COLS / 2 - sizeof(options)/2;
     int title_cols = COLS / 2 - strlen(" .d88b.  db    db  .d88b.  d8888b. d888888b d8888b.  .d88b.  d8888b. ") / 2;
@@ -80,7 +78,16 @@ void chooseOptions(int nb_files, char **files) {
                     if (nb_files > 0)
                         menu_save();
                     else
+                    {
+                        clear();
+                        attron(A_BOLD);
+                        mvprintw(LINES / 2, COLS / 2 - 10, "No save found");
+                        attroff(A_BOLD);
+                        refresh();
+                        sleep(1);
+                        clear();
                         goto error;
+                    }
                 } else if (choix == 2) {
                     showButton(0);
                     chooseOptions(nb_files, files);

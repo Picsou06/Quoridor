@@ -34,7 +34,7 @@ void save_game(Game game, char *filename) {
         printf("Failed to open the file for writing.\n");
         return;
     }
-    fprintf(file, "%d\n", game.name);
+    fprintf(file, "%s\n", game.name);
     fprintf(file, "%d\n", game.nbPlayers);
     for (int i = 0; i < game.nbPlayers; i++) {
         fprintf(file, "%c %d %d %d\n", game.listOfPlayers[i]->icon, game.listOfPlayers[i]->color, game.listOfPlayers[i]->x, game.listOfPlayers[i]->y);
@@ -67,7 +67,7 @@ void load_game(char *filename) {
         return;
     }
     char *name;
-    fscanf(file, "%d", &name);
+    fscanf(file, "%s", &name);
     int nbPlayers;
     fscanf(file, "%d", &nbPlayers);
 
@@ -122,11 +122,14 @@ void show_options(int pages, int selected, int numFiles) {
     clear();
     char** files = NULL;
     get_files(&files, &numFiles);
-    mvprintw(0, 0, "Select a save to load:");
-    for (int i = pages * 8; i < numFiles; i++) {
+
+
+    mvprintw(0, 0, "###################################");
+    mvprintw(1, 1, "Select a save to load: %d", selected);
+    for (int i = pages * 8; i <= pages * 8 + 7 && i < numFiles; i++) {
         if (i == selected)
             attron(A_REVERSE);
-        mvprintw(i + 1, 0, files[i]);
+        mvprintw(i + 1 - pages * 8, 1, files[i]);
         if (i == selected)
             attroff(A_REVERSE);
     }
@@ -150,14 +153,14 @@ void menu_save() {
             case KEY_DOWN:
                 if (selected < nb_files - 1)
                     selected++;
-                if (selected > pages * 8 + 7)
+                if (selected > pages * 8 + 7 && pages * 8 + 7 < nb_files)
                     pages++;
                 refresh();
                 break;
             case KEY_UP:
                 if (selected > 0)
                     selected--;
-                if (selected < pages * 8)
+                if (selected < pages * 8 && pages > 0)
                     pages--;
                 refresh();
                 break;
