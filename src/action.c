@@ -214,7 +214,8 @@ void select_player(Game* game)
     int ch = 0;
     int number_of_wall = 0;
     int diagonale = 0;
-    while (ch != '\n') {
+    int finish = 0;
+    while (finish == 0) {
         ch = getch();
         if (diagonale==1)
         {
@@ -367,11 +368,15 @@ void select_player(Game* game)
                 }
                 break;
             case '\n':
-                game->playerPlaying->x = currentPlayer->x;
-                game->playerPlaying->y = currentPlayer->y;
-                redraw(game);
-                switch_player(game);
-                select_player(game);
+                if (currentPlayer->x != game->playerPlaying->x || currentPlayer->y != game->playerPlaying->y)
+                {
+                    game->playerPlaying->x = currentPlayer->x;
+                    game->playerPlaying->y = currentPlayer->y;
+                    redraw(game);
+                    switch_player(game);
+                    select_player(game);
+                    finish = 1;
+                }
                 break;
         }
     }
@@ -440,7 +445,7 @@ bool check_player_superposition(Game *game, int x, int y)
         opponent = 0;
     if (game->listOfPlayers[opponent]->x != x || game->listOfPlayers[opponent]->y != y)
         return false;
-    if (x <= 0 || x >= 8 || y <= 0 || y >= 8)
+    if (x <= 0 || x >= 8 || y <= 0 || y <= 8)
         return false;
     return true;
 }
