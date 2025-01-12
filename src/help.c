@@ -68,6 +68,7 @@ void showPageOne(int part) {
     mvprintw(LINES - 1, COLS - 8," 1/2 ");
     refresh();
 }
+
 void shadowLetter(int x, int y, char letter, char *explanation){
     /*
     Fonction: shadowLetter
@@ -160,6 +161,104 @@ void showPageTwo()
     refresh();
 }
 
+static void handleKeyPress(int ch, int *pages) {
+    switch (ch) {
+        case KEY_RIGHT:
+            if (*pages < 1)
+                (*pages)++;
+            selectPage(*pages);
+            break;
+        case KEY_LEFT:
+            if (*pages > 0)
+                (*pages)--;
+            selectPage(*pages);
+            break;
+        case KEY_UP:
+            if (*pages == 0 && !(LINES > BOARD_SIZE * 3 + 10))
+                showPageOne(0);
+            break;
+        case KEY_DOWN:
+            if (*pages == 0 && !(LINES > BOARD_SIZE * 3 + 10))
+                showPageOne(1);
+            break;
+        case '1':
+            selectPage(*pages);
+            if (*pages == 1)
+                shadowLetter(COLS / 2 - 11, LINES / 2 - 3, '1', "Deplacer le pion en diagonale bas gauche");
+            break;
+        case '2':
+            selectPage(*pages);
+            if (*pages == 1)
+                shadowLetter(COLS / 2 - 4, LINES / 2 - 3, '2', "Deplacer le pion vers le bas");
+            break;
+        case '3':
+            selectPage(*pages);
+            if (*pages == 1)
+                shadowLetter(COLS / 2 + 3, LINES / 2 - 3, '3', "Deplacer le pion en diagonale bas droite");
+            break;
+        case '4':
+            selectPage(*pages);
+            if (*pages == 1)
+                shadowLetter(COLS / 2 - 11, LINES / 2 - 7, '4', "Deplacer le pion vers la gauche");
+            break;
+        case '5':
+            selectPage(*pages);
+            if (*pages == 1)
+                shadowLetter(COLS / 2 - 4, LINES / 2 - 7, '5', "Changer le type d'action");
+            break;
+        case '6':
+            selectPage(*pages);
+            if (*pages == 1)
+                shadowLetter(COLS / 2 + 3, LINES / 2 - 7, '6', "Deplacer le pion vers la droite");
+            break;
+        case '7':
+            selectPage(*pages);
+            if (*pages == 1)
+                shadowLetter(COLS / 2 - 11, LINES / 2 - 11, '7', "Deplacer le pion en diagonale haut gauche");
+            break;
+        case '8':
+            selectPage(*pages);
+            if (*pages == 1)
+                shadowLetter(COLS / 2 - 4, LINES / 2 - 11, '8', "Deplacer le pion vers le haut");
+            break;
+        case '9':
+            selectPage(*pages);
+            if (*pages == 1)
+                shadowLetter(COLS / 2 + 3, LINES / 2 - 11, '9', "Deplacer le pion en diagonale haut droite");
+            break;
+        case '0':
+            selectPage(*pages);
+            if (*pages == 1) {
+                attron(A_REVERSE);
+                mvprintw(LINES / 2 + 1, COLS / 2 - 11, "############");
+                mvprintw(LINES / 2 + 2, COLS / 2 - 11, "#     0    #");
+                mvprintw(LINES / 2 + 3, COLS / 2 - 11, "############");
+                attroff(A_REVERSE);
+                mvprintw(LINES / 2 + 4, COLS / 2 - 11, "Changer la rotation du mur");
+                refresh();
+            }
+            break;
+        case '\n':
+            selectPage(*pages);
+            if (*pages == 1) {
+                attron(A_REVERSE);
+                mvprintw(LINES / 2 - 3, COLS / 2 + 10, "#####");
+                mvprintw(LINES / 2 - 2, COLS / 2 + 10, "# E #");
+                mvprintw(LINES / 2 - 1, COLS / 2 + 10, "# N #");
+                mvprintw(LINES / 2 + 0, COLS / 2 + 10, "# T #");
+                mvprintw(LINES / 2 + 1, COLS / 2 + 10, "# E #");
+                mvprintw(LINES / 2 + 2, COLS / 2 + 10, "# R #");
+                mvprintw(LINES / 2 + 3, COLS / 2 + 10, "#####");
+                attroff(A_REVERSE);
+                mvprintw(LINES / 2 + 4, COLS / 2 + 10, "Valider l'action");
+                refresh();
+            }
+            break;
+        case 27:
+            return;
+    }
+}
+
 void showButton(int pages) {
     /*
     Fonction: showButton
@@ -168,108 +267,12 @@ void showButton(int pages) {
     Traitement : 
     Retour: void
     */
-        selectPage(pages);
-        int ch = 0;
-        while (ch != KEY_BACKSPACE) {
-            ch = getch();
-            switch (ch) {
-                case KEY_RIGHT:
-                    if (pages < 1)
-                        pages++;
-                    selectPage(pages);
-                    break;
-                case KEY_LEFT:
-                    if (pages > 0)
-                        pages--;
-                    selectPage(pages);
-                    break;
-                case KEY_UP:
-                    if (pages == 0 && !(LINES > LINES > BOARD_SIZE * 3+10))
-                        showPageOne(0);
-                    break;
-                case KEY_DOWN:
-                    if (pages == 0 && !(LINES > BOARD_SIZE * 3+10))
-                        showPageOne(1);
-                    break;
-                case '1':
-                    selectPage(pages);
-                    if (pages==1)
-                        shadowLetter(COLS / 2 - 11, LINES / 2 - 3, '1', "Deplacer le pion en diagonale bas gauche");
-                    break;
-                case '2':
-                    selectPage(pages);
-                    if (pages==1)
-                        shadowLetter(COLS / 2 - 4, LINES / 2 - 3, '2', "Deplacer le pion vers le bas");
-                    break;
-                case '3':
-                    selectPage(pages);
-                    if (pages==1)
-                        shadowLetter(COLS / 2 + 3, LINES / 2 - 3, '3', "Deplacer le pion en diagonale bas droite");
-                    break;
-                case '4':
-                    selectPage(pages);
-                    if (pages==1)
-                        shadowLetter(COLS / 2 - 11, LINES / 2 - 7, '4', "Deplacer le pion vers la gauche");
-                    break;
-                case '5':
-                    selectPage(pages);
-                    if (pages==1)
-                        shadowLetter(COLS / 2 - 4, LINES / 2 - 7, '5', "Changer le type d'action");
-                    break;
-                case '6':  
-                    selectPage(pages);
-                    if (pages==1)
-                        shadowLetter(COLS / 2 + 3, LINES / 2 - 7, '6', "Deplacer le pion vers la droite");
-                    break;
-                case '7':
-                    selectPage(pages);
-                    if (pages==1)
-                        shadowLetter(COLS / 2 - 11, LINES / 2 - 11, '7', "Deplacer le pion en diagonale haut gauche");
-                    break;
-                case '8':  
-                    selectPage(pages);
-                    if (pages==1)
-                        shadowLetter(COLS / 2 - 4, LINES / 2 - 11, '8', "Deplacer le pion vers le haut");
-                    break;
-                case '9':
-                    selectPage(pages);
-                    if (pages==1)
-                        shadowLetter(COLS / 2 + 3, LINES / 2 - 11, '9', "Deplacer le pion en diagonale haut droite");
-                    break;
-                case '0':
-                    selectPage(pages);
-                    if (pages==1)
-                    {
-                        attron(A_REVERSE);
-                        mvprintw(LINES / 2 + 1, COLS / 2 - 11, "############");
-                        mvprintw(LINES / 2 + 2, COLS / 2 - 11, "#     0    #");
-                        mvprintw(LINES / 2 + 3, COLS / 2 - 11, "############");
-                        attroff(A_REVERSE);
-                        mvprintw(LINES / 2 + 4, COLS / 2 - 11, "Changer la rotation du mur");
-                        refresh();
-                    }
-                    break;
-                case '\n':
-                    selectPage(pages);
-                    if (pages==1){
-                        attron(A_REVERSE);
-                        mvprintw(LINES / 2 - 3, COLS / 2 + 10,"#####");
-                        mvprintw(LINES / 2 - 2, COLS / 2 + 10,"# E #");
-                        mvprintw(LINES / 2 - 1, COLS / 2 + 10,"# N #");
-                        mvprintw(LINES / 2 + 0, COLS / 2 + 10,"# T #");
-                        mvprintw(LINES / 2 + 1, COLS / 2 + 10,"# E #");
-                        mvprintw(LINES / 2 + 2, COLS / 2 + 10,"# R #");
-                        mvprintw(LINES / 2 + 3, COLS / 2 + 10,"#####");
-                        attroff(A_REVERSE);
-                        mvprintw(LINES / 2 + 4, COLS / 2 + 10,"Valider l'action");
-                        refresh();
-                    }
-                    break;
-                case 27:
-                    return;
-                }
-            }
-        return;
+    selectPage(pages);
+    int ch = 0;
+    while (ch != KEY_BACKSPACE) {
+        ch = getch();
+        handleKeyPress(ch, &pages);
+    }
 }
 
 void selectPage(int pages) {

@@ -201,13 +201,3 @@ void menu_save() {
     }
     refresh();
 }
-
-// touche sur le côté
-//verifie qu'un joueur a fait son action
-//affiche le tour du joueur en mode
-//change le message de victoire
-//nom deja utiloise pour lesq sauvegardes 
-//si pas de partie cacher l'option 
-//crée des partie ou y'a plus que 1 ou 2 coups pour gagner
-//indique e nombre de caractere max pour un nom de partie et contraite aec les signes
-
