@@ -201,7 +201,7 @@ bool is_path_possible(Game* game, Player* player, int target_y) {
     return false;
 }
 
-void handle_player_movement(Game* game, Player* currentPlayer, int ch, int* diagonale) {
+static void handle_player_movement(Game* game, Player* currentPlayer, int ch, int* diagonale) {
     switch (ch) {
         case '8':
         case KEY_UP:
