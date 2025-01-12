@@ -98,7 +98,11 @@ void showPageTwo()
     clear();
     int x = COLS / 2 - 11;
     int y = LINES / 2 - 11;
+    attron(A_BOLD);
+    attron(COLOR_PAIR(5));
     mvprintw(y - 2, x + 9 - (strlen("Appuyez sur une touches pour connaitre sa fonction")/2), "Appuyez sur une touches pour connaitre sa fonction");
+    attroff(A_BOLD);
+    attroff(COLOR_PAIR(5));
     mvprintw(y, x,"#####");
     mvprintw(y+1, x,"# 7 #");
     mvprintw(y+2, x,"#####");

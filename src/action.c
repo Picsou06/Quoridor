@@ -426,8 +426,6 @@ bool check_player_passwall(Game *game, char mouvement, int x, int y)
 
     while (i < game->nbWalls)
     {
-        mvprintw(0, 0, "Wall: %d, %d", game->listOfWalls[i].x, game->listOfWalls[i].y);
-        mvprintw(1, 0, "Player: %d, %d", x, y);
         if (mouvement == 'r')
         {
             if (game->listOfWalls[i].axes == 1)
