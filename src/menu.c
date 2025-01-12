@@ -58,6 +58,7 @@ void chooseOptions(int nb_files, char **files) {
     int ch = 0;
     while (ch != '\n') {
         ch = getch();
+        mvprintw(LINES / 2 + 6, COLS/2 - strlen("###################################") / 2, "                                   ");
         switch (ch) {
             case '8':
             case KEY_UP:
@@ -81,13 +82,12 @@ void chooseOptions(int nb_files, char **files) {
                         menu_save();
                     else
                     {
-                        clear();
                         attron(A_BOLD);
-                        mvprintw(LINES / 2, COLS / 2 - 10, "No save found");
+                        attron(COLOR_PAIR(6));
+                        mvprintw(LINES / 2 + 6, COLS/2 - strlen("No save found") / 2 - 1, "No save found");
                         attroff(A_BOLD);
+                        attroff(COLOR_PAIR(6));
                         refresh();
-                        sleep(1);
-                        clear();
                         goto error;
                     }
                 } else if (choix == 2) {

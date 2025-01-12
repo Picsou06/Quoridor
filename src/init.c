@@ -47,16 +47,24 @@ static void choose_name(Game *game)
             free(name);
             return;
         } else{
+            attron(A_BOLD);
+            attron(COLOR_PAIR(6));
             if (found)
                 mvprintw(line + 1, cols, "Name already exists");
             else
                 mvprintw(line + 1, cols, "Name contains invalid characters or is too long");
+            attroff(A_BOLD);
+            attroff(COLOR_PAIR(6));
             refresh();
             sleep(1);
             choose_name(game);
         }
     } else {
+            attron(A_BOLD);
+            attron(COLOR_PAIR(6));
             mvprintw(line + 1, cols, "Name contains invalid characters or is too long");
+            attroff(A_BOLD);
+            attroff(COLOR_PAIR(6));
             refresh();
             sleep(1);
             choose_name(game);
